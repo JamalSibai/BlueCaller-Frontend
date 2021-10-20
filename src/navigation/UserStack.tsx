@@ -20,10 +20,10 @@ export function UserBottomTabs({ navigation }) {
   return (
     <NavigationContainer ref={navigationRef}>
       <BottomTabsNav.Navigator
-        initialRouteName="testing"
+        initialRouteName="HomeScreen"
         tabBarOptions={{
           activeTintColor: "#000",
-          inactiveTintColor: colors.background,
+          inactiveTintColor: "#707070",
           showLabel: true,
           allowFontScaling: false,
           keyboardHidesTabBar: true,
@@ -94,6 +94,7 @@ export function UserBottomTabs({ navigation }) {
           component={ProfileStack}
           options={{
             title: "Profile",
+            headerShown: false,
             tabBarIcon: ({ focused, color, size }) => (
               <MaterialCommunityIcons
                 name={"account-hard-hat"}
