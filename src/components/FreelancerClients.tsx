@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Button, Image } from "react-native";
 import React from "react";
 import { Rating } from "react-native-ratings";
 
-export default function FreelancerCard({ navigation, props }) {
+export default function FreelancerClients({ navigation, props }) {
   return (
     <View style={styles.container}>
       <View style={styles.box}>
@@ -10,20 +10,13 @@ export default function FreelancerCard({ navigation, props }) {
           <Image style={styles.profileImage} source={props.image} />
           <View>
             <Text style={styles.name}>{props.name}</Text>
-            <Text style={{ paddingLeft: 10 }}>{props.price}$/Hour </Text>
-            <Rating
-              style={{ paddingLeft: 10, paddingTop: 5 }}
-              type="star"
-              startingValue={props.rating}
-              readonly
-              imageSize={22}
-              ratingCount={5}
-            />
+            <Text style={{ paddingLeft: 10 }}>email: Jamal@gmail.com </Text>
+            <Text style={{ paddingLeft: 10 }}>Phone: 76630304 </Text>
           </View>
         </View>
         <View style={{ width: "100%" }}>
           <Button
-            title="Book Now"
+            title="Location"
             color="#000"
             onPress={() => console.log("clicked")}
           />
