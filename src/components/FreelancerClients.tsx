@@ -1,25 +1,70 @@
-import { StyleSheet, Text, View, Button, Image } from "react-native";
-import React from "react";
+import { StyleSheet, Text, View, Button, Image, Linking } from "react-native";
+import React, { useState } from "react";
 import { Rating } from "react-native-ratings";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
-export default function FreelancerClients({ navigation, props }) {
+export default function FreelancerClients({ navigation, props, reload }) {
+  const [data, setData] = useState(props);
+  const user = useSelector((state) => state?.user);
+
+  console.log("here");
+  console.log(data);
+
+  const location = () => {
+    Linking.openURL(
+      "https://maps.google.com/?q=" + data.latitude + "," + data.longitude
+    );
+  };
+  const Done = async () => {
+    console.log("in historyCard");
+    try {
+      const res = await axios.post(
+        `https://bluecaller.tk/api/auth/edit-appointment-status`,
+        {
+          appointment_id: data.id,
+        },
+        {
+          headers: {
+            Authorization: "bearer " + user.userProfile.token,
+            Accept: "application / json",
+          },
+        }
+      );
+      if (res.data.hasOwnProperty("status")) {
+        console.log(res.data);
+        // setData(null);
+        alert("Successfuly Rated Freelancer!!");
+      } else {
+        alert("Appointment Finished");
+        reload();
+        // console.log(res.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.box}>
         <View style={styles.innerbox}>
-          <Image style={styles.profileImage} source={props.image} />
+          <Image
+            style={styles.profileImage}
+            source={{ uri: data.user.image }}
+          />
           <View>
-            <Text style={styles.name}>{props.name}</Text>
-            <Text style={{ paddingLeft: 10 }}>email: Jamal@gmail.com </Text>
-            <Text style={{ paddingLeft: 10 }}>Phone: 76630304 </Text>
+            <Text style={styles.name}>{data.user.name} </Text>
+            <Text style={{ paddingLeft: 10 }}>email: {data.user.email} </Text>
+            <Text style={{ paddingLeft: 10 }}>Phone: {data.user.phone} </Text>
           </View>
         </View>
-        <View style={{ width: "100%" }}>
-          <Button
-            title="Location"
-            color="#000"
-            onPress={() => console.log("clicked")}
-          />
+        <View style={{ width: "100%", flexDirection: "row" }}>
+          <View style={{ flex: 0.5 }}>
+            <Button title="Location" color="#000" onPress={() => location()} />
+          </View>
+          <View style={{ flex: 0.5 }}>
+            <Button title="Done" color="green" onPress={() => Done()} />
+          </View>
         </View>
       </View>
     </View>

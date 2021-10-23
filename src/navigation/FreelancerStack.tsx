@@ -5,12 +5,14 @@ import { colors } from "../constants/palette";
 
 import Appointments from "../screens/FreelancerScreens/Appointments";
 import AddDates from "../screens/FreelancerScreens/AddDates";
+import Messages from "../screens/UserScreens/Messages";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { OnboardingStack } from "./OnboardingStack";
 import { HomeStack } from "./HomeStack";
 import { ConnectionsStack } from "./ConnectionsStack";
 import { FreelancerProfileStack } from "./FreelancerProfileStack";
+import { AppointmentStack } from "./AppointmentStack";
 
 export function FreelancerBottomTabs({ navigation }) {
   const BottomTabsNav = createBottomTabNavigator();
@@ -20,10 +22,10 @@ export function FreelancerBottomTabs({ navigation }) {
   return (
     <NavigationContainer ref={navigationRef}>
       <BottomTabsNav.Navigator
-        initialRouteName="HomeScreen"
+        initialRouteName="Appointments"
         tabBarOptions={{
           activeTintColor: "#000",
-          inactiveTintColor: colors.background,
+          inactiveTintColor: "#707070",
           showLabel: true,
           allowFontScaling: false,
           keyboardHidesTabBar: true,
@@ -35,34 +37,14 @@ export function FreelancerBottomTabs({ navigation }) {
         }}
       >
         <BottomTabsNav.Screen
-          name="Appointments"
-          component={Appointments}
-          options={{
-            title: "Home",
-            tabBarIcon: ({ focused, color, size }) => (
-              <MaterialCommunityIcons
-                name={"check-network-outline"}
-                size={28}
-                color={color}
-              />
-            ),
-            headerStyle: {
-              backgroundColor: "#000",
-            },
-            headerTintColor: "#fff",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-        />
-        <BottomTabsNav.Screen
           name="Connection"
           component={ConnectionsStack}
           options={{
             title: "Connection",
+            headerShown: false,
             tabBarIcon: ({ focused, color, size }) => (
               <MaterialCommunityIcons
-                name={"calendar-month"}
+                name={"pipe-disconnected"}
                 size={28}
                 color={color}
               />
@@ -83,7 +65,7 @@ export function FreelancerBottomTabs({ navigation }) {
             title: "Add Dates",
             tabBarIcon: ({ focused, color, size }) => (
               <MaterialCommunityIcons
-                name={"calendar-month"}
+                name={"calendar"}
                 size={28}
                 color={color}
               />
@@ -98,13 +80,58 @@ export function FreelancerBottomTabs({ navigation }) {
           }}
         />
         <BottomTabsNav.Screen
+          name="Appointments"
+          component={AppointmentStack}
+          options={{
+            title: "Appointments",
+            headerShown: false,
+            tabBarIcon: ({ focused, color, size }) => (
+              <MaterialCommunityIcons
+                name={"check-network-outline"}
+                size={28}
+                color={color}
+              />
+            ),
+
+            headerStyle: {
+              backgroundColor: "#000",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+        />
+        <BottomTabsNav.Screen
           name="Profile"
           component={FreelancerProfileStack}
           options={{
             title: "Profile",
+            headerShown: false,
             tabBarIcon: ({ focused, color, size }) => (
               <MaterialCommunityIcons
                 name={"account-hard-hat"}
+                size={28}
+                color={color}
+              />
+            ),
+            headerStyle: {
+              backgroundColor: "#000",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+        />
+        <BottomTabsNav.Screen
+          name="Messages"
+          component={Messages}
+          options={{
+            title: "Messages",
+            tabBarIcon: ({ focused, color, size }) => (
+              <MaterialCommunityIcons
+                name={"android-messages"}
                 size={28}
                 color={color}
               />

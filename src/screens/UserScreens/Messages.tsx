@@ -1,22 +1,21 @@
-import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import axios from "axios";
 import EmptyState from "../../components/EmptyState";
-import ListingProfile from "../../components/ListingProfiles";
-import { store } from "../../redux/store";
-import { updateMessage_id } from "../../redux/slices/userSlice";
+import Message from "../../components/Messages";
+import { baseProps } from "react-native-gesture-handler/lib/typescript/handlers/gestureHandlers";
 
-export default function Connections({ navigation }) {
+export default function Messages({ navigation }) {
   const [data, setData] = useState(null);
   const user = useSelector((state) => state?.user);
 
-  const userConnection = async () => {
-    console.log("in userConnection");
+  const messagesRecieved = async () => {
+    console.log("in presssearch");
     try {
       const res = await axios.get(
-        `https://bluecaller.tk/api/auth/get-connections`,
+        `https://bluecaller.tk/api/auth/get-messages`,
         {
           headers: {
             Authorization: "bearer " + user.userProfile.token,
@@ -25,44 +24,30 @@ export default function Connections({ navigation }) {
         }
       );
       if (res.data.hasOwnProperty("status")) {
-        setData(res.data.connections);
-        console.log("here");
-        console.log(res.data.connections[0]);
-      } else {
         setData(null);
+      } else {
+        setData(res.data);
+        // console.log("here");
+        console.log(data);
       }
     } catch (err) {
       console.log(err);
     }
   };
-
-  const sendMessage = (id) => {
-    console.log("in Connections" + id);
-    store.dispatch(
-      updateMessage_id({
-        message_id: {
-          user_id: id,
-        },
-      })
-    );
-    navigation.navigate("Chat");
-  };
-
   useEffect(() => {
     console.log("in");
-    userConnection();
+    messagesRecieved();
   }, []);
-
   return data ? (
     <ScrollView>
       <View style={{ backgroundColor: "#fff", flex: 1 }}>
         {data.map((d) => (
-          <ListingProfile props={d} sendMessage={sendMessage} />
+          <Message props={d} />
         ))}
       </View>
     </ScrollView>
   ) : (
-    <EmptyState loading={true} />
+    <EmptyState loading={true} key={props.message.id} />
   );
 }
 

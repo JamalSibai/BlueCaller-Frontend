@@ -1,31 +1,106 @@
-import { StyleSheet, Text, View, Button, Image } from "react-native";
-import React from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import React, { useState } from "react";
 import { Rating } from "react-native-ratings";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import * as Notifications from "expo-notifications";
+import Constants from "expo-constants";
 
-export default function FreelancerCard({ navigation, props }) {
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
+export default function FreelancerCard({
+  navigation,
+  props,
+  longitude,
+  latitude,
+  date,
+  region,
+  category,
+  key,
+  abc,
+}) {
+  const user = useSelector((state) => state?.user);
+  const [id, setId] = useState(JSON.stringify(props));
+  const onPressButton = async () => {
+    console.log(id[7]);
+    abc();
+    try {
+      const res = await axios.post(
+        `https://bluecaller.tk/api/auth/user-appiontment`,
+        {
+          date: { date }.date,
+          longitude: { longitude }.longitude,
+          latitude: { latitude }.latitude,
+          freelancer_id: id[7],
+          description: "Hello From Frontend",
+        },
+        {
+          headers: {
+            Authorization: "bearer " + user.userProfile.token,
+            Accept: "application / json",
+          },
+        }
+      );
+      if (res.data.hasOwnProperty("status")) {
+        console.log("Done");
+      } else {
+        // setData(res.data);
+
+        console.log("Done");
+        // console.log(data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.box}>
         <View style={styles.innerbox}>
-          <Image style={styles.profileImage} source={props.image} />
+          <Image style={styles.profileImage} source={{ uri: props[0].image }} />
           <View>
-            <Text style={styles.name}>{props.name}</Text>
-            <Text style={{ paddingLeft: 10 }}>{props.price}$/Hour </Text>
+            <Text style={styles.name}>{props[0].name}</Text>
+
+            <Text style={{ paddingLeft: 18 }}>
+              {props[1].hourly_price}$/Hour
+            </Text>
             <Rating
-              style={{ paddingLeft: 10, paddingTop: 5 }}
+              style={{ paddingTop: 5, paddingLeft: 15 }}
               type="star"
-              startingValue={props.rating}
+              startingValue={props[2].rating}
               readonly
               imageSize={22}
               ratingCount={5}
             />
           </View>
         </View>
+        {/* <TouchableOpacity
+          style={[styles.buttonContainer, styles.fabookButton]}
+          onPress={() => onPressButton()}
+        >
+          <View style={styles.socialButtonContent}>
+            <Text style={styles.loginText}>Edit</Text>
+          </View>
+        </TouchableOpacity> */}
         <View style={{ width: "100%" }}>
           <Button
             title="Book Now"
             color="#000"
-            onPress={() => console.log("clicked")}
+            onPress={() => onPressButton()}
           />
         </View>
       </View>
@@ -72,6 +147,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#000",
     flex: 0.7,
+    paddingLeft: 5,
   },
   rating: {
     fontSize: 20,
@@ -80,5 +156,26 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#000",
     flex: 0.5,
+  },
+  buttonContainer: {
+    height: 45,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+    width: 280,
+    marginTop: -50,
+    // borderRadius: 30,
+  },
+  loginText: {
+    color: "white",
+  },
+  fabookButton: {
+    backgroundColor: "#000",
+  },
+  socialButtonContent: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

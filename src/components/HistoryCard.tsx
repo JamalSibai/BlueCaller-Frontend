@@ -10,18 +10,53 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { Rating } from "react-native-ratings";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 export default function HistoryCard({ navigation, props }) {
+  const user = useSelector((state) => state?.user);
   let rate;
+  const [freelancer, setFreelancer] = useState({ props });
   const ratingCompleted = (rating: number) => {
     console.log("Rating is: " + rating);
     rate = rating;
     console.log("rate me " + rate);
+    rateFreelancer();
+  };
+
+  const rateFreelancer = async () => {
+    console.log("in historyCard");
+    try {
+      const res = await axios.post(
+        `https://bluecaller.tk/api/auth/rate_freelancer`,
+        {
+          rated_user: freelancer.props.id,
+          rate: rate,
+        },
+        {
+          headers: {
+            Authorization: "bearer " + user.userProfile.token,
+            Accept: "application / json",
+          },
+        }
+      );
+      if (res.data.hasOwnProperty("status")) {
+        console.log(res.data);
+        // setData(null);
+        alert("Successfuly Rated Freelancer!!");
+      } else {
+        // setData(res.data);
+        // console.log("here");
+        console.log(res.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
     <View style={styles.container}>
-      <Image style={styles.userImage} source={props.image} />
+      <Image style={styles.userImage} source={{ uri: props.image }} />
       <View style={styles.cardFooter}>
         <View style={{ alignItems: "center", justifyContent: "center" }}>
           <Text style={styles.name}>{props.name}</Text>
@@ -92,7 +127,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderBottomLeftRadius: 1,
     borderBottomRightRadius: 1,
-    border: 10,
   },
   userImage: {
     height: 120,
@@ -105,14 +139,12 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 18,
-    flex: 1,
     alignSelf: "center",
     color: "#000",
     fontWeight: "bold",
   },
   position: {
     fontSize: 14,
-    flex: 1,
     alignSelf: "center",
     color: "#696969",
   },

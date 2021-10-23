@@ -6,15 +6,20 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { Rating } from "react-native-ratings";
 
-export default function ListingProfile({ navigation, props }) {
+export default function ListingProfile({ navigation, props, sendMessage }) {
+  const [id, setId] = useState({ props });
+  const onPress = (user_id) => {
+    console.log(id.props.id);
+    sendMessage(user_id.props.id);
+  };
   return (
     <View>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => onPress(id)}>
         <View style={styles.row}>
-          <Image source={props.image} style={styles.pic} />
+          <Image source={{ uri: props.image }} style={styles.pic} />
           <View>
             <View style={styles.nameContainer}>
               <Text
@@ -24,10 +29,10 @@ export default function ListingProfile({ navigation, props }) {
               >
                 {props.name}
               </Text>
-              <Text style={styles.mblTxt}>Chat</Text>
+              <Text style={styles.mblTxt}>Message</Text>
             </View>
             <View style={styles.msgContainer}>
-              <Text style={styles.msgTxt}>Active</Text>
+              <Text style={styles.msgTxt}>+961 {props.phone}</Text>
             </View>
           </View>
         </View>

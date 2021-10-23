@@ -2,22 +2,28 @@ import React, { useRef } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import Connections from "../screens/UserScreens/Connections";
-import Chat from "../screens/UserScreens/Chat";
+import Appointments from "../screens/FreelancerScreens/Appointments";
+import Calendar from "../screens/FreelancerScreens/Calendar";
 
 import { colors } from "../constants/palette";
 
-export function ConnectionsStack() {
+export function AppointmentStack() {
   const RootStackNav = createStackNavigator();
   const navigationRef = useRef(null);
 
   return (
-    <RootStackNav.Navigator>
+    <RootStackNav.Navigator
+      screenOptions={{
+        cardStyle: {
+          backgroundColor: colors.white,
+        },
+      }}
+    >
       <RootStackNav.Screen
-        name="Connections"
-        component={Connections}
+        name="Calendar"
+        component={Calendar}
         options={{
-          title: "Connections",
+          title: "Calendar",
           headerStyle: {
             backgroundColor: "#000",
           },
@@ -28,10 +34,10 @@ export function ConnectionsStack() {
         }}
       />
       <RootStackNav.Screen
-        name="Chat"
-        component={Chat}
+        name="Appointments"
+        component={Appointments}
         options={{
-          title: "Send Message",
+          title: "Appointments",
           headerStyle: {
             backgroundColor: "#000",
           },

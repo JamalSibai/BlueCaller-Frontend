@@ -7,13 +7,20 @@ import Maps from "../screens/UserScreens/Maps";
 import Freelancers from "../screens/UserScreens/Freelancers";
 
 import { colors } from "../constants/palette";
+import FreelancerCard from "../components/FreelancerCard";
 
 export function HomeStack() {
   const RootStackNav = createStackNavigator();
   const navigationRef = useRef(null);
 
   return (
-    <RootStackNav.Navigator>
+    <RootStackNav.Navigator
+      screenOptions={{
+        cardStyle: {
+          backgroundColor: colors.white,
+        },
+      }}
+    >
       <RootStackNav.Screen
         name="Home"
         component={Home}
@@ -47,6 +54,20 @@ export function HomeStack() {
         component={Freelancers}
         options={{
           title: "Freelancers",
+          headerStyle: {
+            backgroundColor: "#000",
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      />
+      <RootStackNav.Screen
+        name="FreelancerCard"
+        component={FreelancerCard}
+        options={{
+          title: "FreelancerCard",
           headerStyle: {
             backgroundColor: "#000",
           },

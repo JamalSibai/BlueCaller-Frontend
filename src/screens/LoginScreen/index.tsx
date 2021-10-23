@@ -30,8 +30,10 @@ const LoginScreen = () => {
                   Name: "Jamal",
                   profileImage:
                     "https://bluecaller.tk/storage/Me8inkaENWQGbmCvdXjsbF4ZEAE2dGEVnbgKs8YB.jpg",
-                  UserType: "0",
-                  firebase_token: "ExponentPushToken[5RBES7Ixh6sgwQpqy1quK3]",
+                  UserType: "1",
+                  token:
+                    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYmx1ZWNhbGxlci50a1wvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYzNDk4MTY4MSwiZXhwIjoxNjM1NTg2NDgxLCJuYmYiOjE2MzQ5ODE2ODEsImp0aSI6ImNFa1gyRHdPUzkxRjNSbmEiLCJzdWIiOjYsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.5TUj61FxvVdILQqLX5LUMIN2EG7U-zrUyCxnSSTW3MQ",
+                  // "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYmx1ZWNhbGxlci50a1wvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYzNDkyNDUxNSwiZXhwIjoxNjM1NTI5MzE1LCJuYmYiOjE2MzQ5MjQ1MTUsImp0aSI6IkZhY21ZWEV3Qjk0Y0VBTWsiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.27C3fTir-yvwfzgiqWLj4gTkDFzPOS7P1xM3CSdKa30",
                 },
               })
             );

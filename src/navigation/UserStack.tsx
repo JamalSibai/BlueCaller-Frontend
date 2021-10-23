@@ -5,6 +5,7 @@ import { colors } from "../constants/palette";
 
 import History from "../screens/UserScreens/History";
 import Testing from "../screens/UserScreens/testing";
+import Messages from "../screens/UserScreens/Messages";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { OnboardingStack } from "./OnboardingStack";
@@ -35,47 +36,14 @@ export function UserBottomTabs({ navigation }) {
         }}
       >
         <BottomTabsNav.Screen
-          name="testing"
-          component={Testing}
-          options={{
-            title: "Testing",
-            tabBarIcon: ({ focused, color, size }) => (
-              <MaterialCommunityIcons name={"home"} size={28} color={color} />
-            ),
-            headerStyle: {
-              backgroundColor: "#000",
-            },
-            headerTintColor: "#fff",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-        />
-        <BottomTabsNav.Screen
-          name="HomeScreen"
-          component={HomeStack}
-          options={{
-            title: "Home",
-            tabBarIcon: ({ focused, color, size }) => (
-              <MaterialCommunityIcons name={"home"} size={28} color={color} />
-            ),
-            headerStyle: {
-              backgroundColor: "#000",
-            },
-            headerTintColor: "#fff",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-        />
-        <BottomTabsNav.Screen
           name="Connection"
           component={ConnectionsStack}
           options={{
             title: "Connection",
+            headerShown: false,
             tabBarIcon: ({ focused, color, size }) => (
               <MaterialCommunityIcons
-                name={"android-messages"}
+                name={"pipe-disconnected"}
                 size={28}
                 color={color}
               />
@@ -112,6 +80,24 @@ export function UserBottomTabs({ navigation }) {
           }}
         />
         <BottomTabsNav.Screen
+          name="HomeScreen"
+          component={HomeStack}
+          options={{
+            title: "Home",
+            headerShown: false,
+            tabBarIcon: ({ focused, color, size }) => (
+              <MaterialCommunityIcons name={"home"} size={28} color={color} />
+            ),
+            headerStyle: {
+              backgroundColor: "#000",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+        />
+        <BottomTabsNav.Screen
           name="History"
           component={History}
           options={{
@@ -119,6 +105,27 @@ export function UserBottomTabs({ navigation }) {
             tabBarIcon: ({ focused, color, size }) => (
               <MaterialCommunityIcons
                 name={"history"}
+                size={28}
+                color={color}
+              />
+            ),
+            headerStyle: {
+              backgroundColor: "#000",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+        />
+        <BottomTabsNav.Screen
+          name="Messages"
+          component={Messages}
+          options={{
+            title: "Messages",
+            tabBarIcon: ({ focused, color, size }) => (
+              <MaterialCommunityIcons
+                name={"android-messages"}
                 size={28}
                 color={color}
               />

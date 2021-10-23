@@ -1,9 +1,20 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { store } from "../../redux/store";
 import { deleteUser } from "../../redux/slices/userSlice";
+import { logout } from "../../redux/slices/authSlice";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import EmptyState from "../../components/EmptyState";
 
 export default function Profile({ navigation }) {
+  const [name, setName] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [phone, setPhone] = useState(null);
+  const [image, setImage] = useState(null);
+  const [data, setData] = useState(null);
+  const user = useSelector((state) => state?.user);
+
   const onpress = () => {
     navigation.navigate("Edit Image");
   };
@@ -21,35 +32,45 @@ export default function Profile({ navigation }) {
     store.dispatch(deleteUser());
   };
 
-  return (
-    // <View>
-    //   <TouchableOpacity onPress={onpress}>
-    //     <Text> Edit Image </Text>
-    //   </TouchableOpacity>
-    //   <TouchableOpacity onPress={onpress2}>
-    //     <Text> Edit Name </Text>
-    //   </TouchableOpacity>
-    //   <TouchableOpacity onPress={onpress3}>
-    //     <Text> Edit Phone Number </Text>
-    //   </TouchableOpacity>
-    //   <TouchableOpacity onPress={onpress4}>
-    //     <Text> Edit Password </Text>
-    //   </TouchableOpacity>
+  const userProfile = async () => {
+    // console.log(user.userProfile.token);
+    try {
+      const res = await axios.get(
+        `https://bluecaller.tk/api/auth/user-profile`,
+        {
+          headers: {
+            Authorization: "bearer " + user.userProfile.token,
+            Accept: "application / json",
+          },
+        }
+      );
+      if (res.data.hasOwnProperty("status")) {
+        console.log("Done");
+      } else {
+        setData(res.data);
+        setName(res.data.name);
+        setEmail(res.data.email);
+        setPhone(res.data.phone);
+        setImage(res.data.image);
 
-    //   <TouchableOpacity onPress={Logout}>
-    //     <Text> Logout </Text>
-    //   </TouchableOpacity>
-    // </View>
+        console.log(data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    console.log("in");
+    userProfile();
+  }, []);
+
+  return image ? (
     <View style={{ backgroundColor: "white" }}>
       <TouchableOpacity onPress={onpress}>
         <View style={styles.header}></View>
       </TouchableOpacity>
-      <Image
-        style={styles.avatar}
-        source={{
-          uri: "https://bluecaller.tk/storage/Me8inkaENWQGbmCvdXjsbF4ZEAE2dGEVnbgKs8YB.jpg",
-        }}
-      />
+      <Image style={styles.avatar} source={{ uri: image }} />
       <TouchableOpacity onPress={onpress2}>
         <View style={styles.row}>
           <View>
@@ -66,7 +87,7 @@ export default function Profile({ navigation }) {
                 numberOfLines={1}
                 ellipsizeMode="tail"
               >
-                Jamal Sibai
+                {name}
               </Text>
             </View>
           </View>
@@ -88,7 +109,7 @@ export default function Profile({ navigation }) {
                 numberOfLines={1}
                 ellipsizeMode="tail"
               >
-                "Jamal@gmail.com"
+                {email}
               </Text>
             </View>
           </View>
@@ -110,20 +131,25 @@ export default function Profile({ navigation }) {
                 numberOfLines={1}
                 ellipsizeMode="tail"
               >
-                +961 76630304
+                +961 {phone}
               </Text>
             </View>
           </View>
         </View>
       </TouchableOpacity>
       <View style={{ alignItems: "center", marginTop: 50 }}>
-        <TouchableOpacity style={[styles.buttonContainer, styles.fabookButton]}>
+        <TouchableOpacity
+          style={[styles.buttonContainer, styles.fabookButton]}
+          onPress={Logout}
+        >
           <View style={styles.socialButtonContent}>
             <Text style={styles.loginText}>Logout</Text>
           </View>
         </TouchableOpacity>
       </View>
     </View>
+  ) : (
+    <EmptyState loading={true} />
   );
 }
 
