@@ -27,7 +27,7 @@ export default function Connections({ navigation }) {
       if (res.data.hasOwnProperty("status")) {
         setData(res.data.connections);
         console.log("here");
-        console.log(res.data.connections[0]);
+        console.log(res.data);
       } else {
         setData(null);
       }

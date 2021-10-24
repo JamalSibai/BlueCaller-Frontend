@@ -22,6 +22,12 @@ export interface User {
   appointmentDate?: {
     date: string;
   };
+  editingProfile?: {
+    edited: string;
+  };
+  DoneFreelancer?: {
+    Done: string;
+  };
 }
 
 const initialState: User = {
@@ -29,6 +35,7 @@ const initialState: User = {
   freelancerSearch: null,
   message_id: null,
   appointmentDate: null,
+  editingProfile: null,
 };
 
 const userSlice = createSlice({
@@ -62,6 +69,16 @@ const userSlice = createSlice({
       // NEVER CALL APIS here
       // asyncStorageManager.setItem("userProfile", action.payload.userProfile)
     },
+    updateEditingProfile(state, action) {
+      state.editingProfile = action.payload.editingProfile;
+      // NEVER CALL APIS here
+      // asyncStorageManager.setItem("userProfile", action.payload.userProfile)
+    },
+    updateDoneFreelancer(state, action) {
+      state.DoneFreelancer = action.payload.DoneFreelancer;
+      // NEVER CALL APIS here
+      // asyncStorageManager.setItem("userProfile", action.payload.userProfile)
+    },
   },
 });
 
@@ -72,5 +89,7 @@ export const {
   updateFreelancerSearch,
   updateMessage_id,
   updateAppointmentDate,
+  updateEditingProfile,
+  updateDoneFreelancer,
 } = userSlice.actions;
 export default userSlice.reducer;

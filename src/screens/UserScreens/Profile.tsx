@@ -63,7 +63,7 @@ export default function Profile({ navigation }) {
   useEffect(() => {
     console.log("in");
     userProfile();
-  }, []);
+  }, [user.editingProfile.edited]);
 
   return image ? (
     <View style={{ backgroundColor: "white" }}>

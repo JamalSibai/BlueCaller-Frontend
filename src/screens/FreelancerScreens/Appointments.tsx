@@ -7,7 +7,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import DateListing from "../../components/DateListing";
 import FreelancerClients from "../../components/FreelancerClients";
-import { Value } from "react-native-reanimated";
+// import { Value } from "react-native-reanimated";
 
 export default function Appointments({ navigation }) {
   const user = useSelector((state) => state?.user);
@@ -41,21 +41,18 @@ export default function Appointments({ navigation }) {
       console.log(err);
     }
   };
-  const reload = () => {
-    setValue(value + 1);
-  };
 
   useEffect(() => {
     console.log("in");
     userAppointment();
-  }, [value]);
+  }, [user.DoneFreelancer.Done]);
 
   return data ? (
     <View>
       <ScrollView>
         <View style={{ backgroundColor: "#fff", flex: 1 }}>
           {data.map((d) => (
-            <FreelancerClients props={d} key={d.id} reload={reload} />
+            <FreelancerClients props={d} key={d.id} />
           ))}
         </View>
       </ScrollView>

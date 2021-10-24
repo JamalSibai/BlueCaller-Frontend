@@ -23,6 +23,10 @@ export default function Maps({ navigation, props }) {
     longitude: 35.5018,
   });
 
+  const clickable = () => {
+    console.log(pin);
+  };
+
   const onpress2 = () => {
     store.dispatch(
       updateFreelancerSearch({
@@ -68,7 +72,7 @@ export default function Maps({ navigation, props }) {
               latitude: e.nativeEvent.coordinate.latitude,
               longitude: e.nativeEvent.coordinate.longitude,
             });
-            onpress2();
+            // onpress2();
             console.log(pin);
           }}
         >
@@ -79,13 +83,34 @@ export default function Maps({ navigation, props }) {
       </MapView>
       <View
         style={{
-          position: "absolute", //use absolute position to show button on top of the map
-          top: "75%", //for center align
-          alignSelf: "flex-end", //for align to right
+          flexDirection: "row",
           alignItems: "center",
+          justifyContent: "center",
+          position: "absolute",
+          top: "75%", //for center align
+          alignSelf: "flex-start", //for align to right
         }}
       >
-        <Button title={"okay"} />
+        <View
+          style={{
+            // position: "absolute", //use absolute position to show button on top of the map
+            // top: "75%", //for center align
+            // alignSelf: "flex-start", //for align to right
+            flex: 1,
+
+            alignItems: "center",
+          }}
+        >
+          <TouchableOpacity
+            style={[styles.buttonContainer, styles.fabookButton]}
+            onPress={onpress2}
+          >
+            <View style={styles.socialButtonContent}>
+              <Text style={styles.loginText}>Done</Text>
+            </View>
+          </TouchableOpacity>
+          {/* <Button color="#000" title={"okay"} onPress={clickable} /> */}
+        </View>
       </View>
     </View>
   );
@@ -114,6 +139,8 @@ const styles = StyleSheet.create({
   },
   loginText: {
     color: "white",
+    fontWeight: "bold",
+    fontSize: 18,
   },
   fabookButton: {
     backgroundColor: "#000",

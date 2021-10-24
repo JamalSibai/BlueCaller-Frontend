@@ -12,52 +12,90 @@ import {
   Linking,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { Picker } from "@react-native-picker/picker";
-import { Rating } from "react-native-ratings";
-import * as ImagePicker from "expo-image-picker";
-import { SafeAreaView } from "react-native-safe-area-context";
+import axios from "axios";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 
-export default function Testing({ navigation, props }) {
+export default function userRegister({ navigation, props }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [hourly_price, setHourly_price] = useState("");
   const [firebase_token, setFirebase_token] = useState("");
 
-  const [selectedRegions, setSelectedRegions] = useState("");
-  const [selectedCategories, setSelectedCategories] = useState("");
+  const login = () => {
+    navigation.pop();
+  };
 
-  const [regions] = useState(
-    [
-      "Akkar",
-      "Baalbeck-Hermel",
-      "Beirut",
-      "Bekaa",
-      "Mount Lebanon",
-      "North Lebanon",
-      "Nabatiyeh",
-      "South Lebanon",
-    ].sort()
-  );
-  const [categories] = useState(
-    [
-      "Electricity",
-      "Air Conditioning",
-      "Satellite",
-      "Pluming",
-      "Carpentry",
-      "Welding",
-      "General Constraction",
-      "Car Mechanic",
-      "Car Electricity",
-      "Tires Expert",
-      "Glass and Aluminum",
-      "Elevator Maintenance",
-    ].sort()
-  );
+  async function registerForPushNotificationsAsync() {
+    let token;
+    if (Constants.isDevice) {
+      const { status: existingStatus } =
+        await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== "granted") {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== "granted") {
+        alert("Failed to get push token for push notification!");
+        return;
+      }
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+    } else {
+      alert("Must use physical device for Push Notifications");
+    }
+
+    if (Platform.OS === "android") {
+      Notifications.setNotificationChannelAsync("default", {
+        name: "default",
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: "#FF231F7C",
+      });
+    }
+    // console.log(token);
+    setFirebase_token(token);
+  }
+
+  const register = async () => {
+    // if (email == "") {
+    //   return alert("Enter Email");
+    // }
+    // if (password == "") {
+    //   return alert("Enter Password");
+    // }
+    registerForPushNotificationsAsync();
+    try {
+      const res = await axios.post(`https://bluecaller.tk/api/auth/register`, {
+        name: name,
+        email: email,
+        password: password,
+        password_confirmation: password,
+        phone: phone,
+        user_type: 0,
+        firebase_token: firebase_token,
+      });
+      if (res.data.hasOwnProperty("status")) {
+        console.log(res.data);
+        // console.log("hey");
+        // console.log(name);
+        // console.log(email);
+        // console.log(password);
+        // console.log(phone);
+        // console.log(firebase_token);
+        alert("User Successfuly Registered");
+        navigation.pop();
+      } else {
+        // setData(null);
+        console.log(res.data);
+      }
+    } catch (err) {
+      alert("Wrong Email or Password!");
+      console.log(err);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Image
@@ -105,7 +143,6 @@ export default function Testing({ navigation, props }) {
           }}
         />
       </View>
-
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.inputs}
@@ -115,51 +152,14 @@ export default function Testing({ navigation, props }) {
         />
       </View>
 
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.inputs}
-          placeholder="Price Per Hour"
-          underlineColorAndroid="transparent"
-          onChangeText={(price) => setHourly_price(price)}
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Picker
-          selectedValue={selectedRegions}
-          onValueChange={(value, index) => setSelectedRegions(value)}
-          mode="dropdown" // Android only
-          style={styles.inputs}
-        >
-          {regions.map((r) => (
-            <Picker.Item label={r} value={r} key={r} />
-          ))}
-        </Picker>
-      </View>
-      <View style={styles.inputContainer}>
-        <Picker
-          selectedValue={selectedCategories}
-          onValueChange={(value, index) => setSelectedCategories(value)}
-          mode="dropdown" // Android only
-          style={styles.inputs}
-        >
-          {categories.map((c) => (
-            <Picker.Item label={c} value={c} key={c} />
-          ))}
-        </Picker>
-      </View>
-
       <TouchableOpacity
         style={[styles.buttonContainer, styles.loginButton]}
-        onPress={() => this.onClickListener("login")}
+        onPress={register}
       >
         <Text style={styles.loginText}>Register</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.buttonContainerRegister}
-        onPress={() => this.onClickListener("register")}
-      >
+      <TouchableOpacity style={styles.buttonContainerRegister} onPress={login}>
         <Text style={styles.btnText}>Login?</Text>
       </TouchableOpacity>
     </View>
@@ -276,72 +276,3 @@ const styles = StyleSheet.create({
     textShadowRadius: 10,
   },
 });
-
-// import {
-//   StyleSheet,
-//   Text,
-//   View,
-//   Button,
-//   Image,
-//   TouchableOpacity,
-//   TouchableHighlight,
-//   TextInput,
-//   Dimensions,
-// } from "react-native";
-// import React, { useState } from "react";
-// import { Rating } from "react-native-ratings";
-// import MapView, { Callout, Circle, Marker } from "react-native-maps";
-
-// export default function Maps({ navigation, props }) {
-//   const [pin, setPin] = useState({
-//     latitude: 33.8938,
-//     longitude: 35.5018,
-//   });
-//   return (
-//     <View>
-//       <MapView
-//         style={styles.map}
-//         initialRegion={{
-//           latitude: 33.8938,
-//           longitude: 35.5018,
-//           latitudeDelta: 0.0922,
-//           longitudeDelta: 0.0421,
-//         }}
-//         // provider="google"
-//       >
-//         <Marker
-//           coordinate={pin}
-//           pinColor="black"
-//           draggable={true}
-//           onDragStart={(e) => {
-//             console.log("Drag start" + e.nativeEvent.coordinates);
-//           }}
-//           onDragEnd={(e) => {
-//             setPin({
-//               latitude: e.nativeEvent.coordinate.latitude,
-//               longitude: e.nativeEvent.coordinate.longitude,
-//             });
-//             console.log(pin);
-//           }}
-//         >
-//           <Callout>
-//             <Text>I'm here</Text>
-//           </Callout>
-//         </Marker>
-//       </MapView>
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-//   map: {
-//     width: Dimensions.get("window").width,
-//     height: Dimensions.get("window").height,
-//   },
-// });

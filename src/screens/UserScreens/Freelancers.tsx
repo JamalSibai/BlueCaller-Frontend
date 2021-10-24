@@ -12,7 +12,7 @@ export default function Freelancers({ navigation }) {
   const [variable, setVariable] = useState(1);
 
   const [expoPushToken, setExpoPushToken] = useState(
-    "ExponentPushToken[nr4VAEICkGsMvFWwobzNaV]"
+    "ExponentPushToken[RZX_6GPi6gT5s7wJYtP0hW]"
   );
   async function sendPushNotification(expoPushToken) {
     const message = {
@@ -85,7 +85,7 @@ export default function Freelancers({ navigation }) {
             date={user.freelancerSearch.date}
             category={user.freelancerSearch.category}
             region={user.freelancerSearch.region}
-            key={d[0].id}
+            key={Math.floor(Math.random())}
             // id={d}
             abc={abc}
           />

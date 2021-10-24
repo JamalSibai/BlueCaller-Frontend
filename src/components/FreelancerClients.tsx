@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import { Rating } from "react-native-ratings";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { store } from "../redux/store";
+import { updateDoneFreelancer } from "../redux/slices/userSlice";
 
-export default function FreelancerClients({ navigation, props, reload }) {
+export default function FreelancerClients({ navigation, props }) {
   const [data, setData] = useState(props);
   const user = useSelector((state) => state?.user);
 
@@ -34,11 +36,16 @@ export default function FreelancerClients({ navigation, props, reload }) {
       if (res.data.hasOwnProperty("status")) {
         console.log(res.data);
         // setData(null);
-        alert("Successfuly Rated Freelancer!!");
-      } else {
+        store.dispatch(
+          updateDoneFreelancer({
+            DoneFreelancer: {
+              Done: data.id,
+            },
+          })
+        );
         alert("Appointment Finished");
-        reload();
-        // console.log(res.data);
+      } else {
+        console.log(res.data);
       }
     } catch (err) {
       console.log(err);

@@ -33,9 +33,10 @@ export default function FreelancerCard({
   abc,
 }) {
   const user = useSelector((state) => state?.user);
-  const [id, setId] = useState(JSON.stringify(props));
+  const [id, setId] = useState({ props });
+  console.log(id.props[0].id);
+  console.log("id");
   const onPressButton = async () => {
-    console.log(id[7]);
     abc();
     try {
       const res = await axios.post(
@@ -44,7 +45,7 @@ export default function FreelancerCard({
           date: { date }.date,
           longitude: { longitude }.longitude,
           latitude: { latitude }.latitude,
-          freelancer_id: id[7],
+          freelancer_id: id.props[0].id,
           description: "Hello From Frontend",
         },
         {

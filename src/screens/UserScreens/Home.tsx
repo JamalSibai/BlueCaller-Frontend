@@ -52,6 +52,12 @@ export default function Home({ navigation }) {
     navigation.navigate("Maps");
   };
   const onpress2 = () => {
+    if (user.freelancerSearch.latitude == "") {
+      return alert("Choose Appointment Location");
+    }
+    if (date == "") {
+      return alert("Enter Date");
+    }
     store.dispatch(
       updateFreelancerSearch({
         freelancerSearch: {
@@ -68,8 +74,18 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <View
+        style={{
+          alignItems: "center",
+          borderBottomWidth: 1,
+          borderBottomColor: "#000",
+          padding: 10,
+        }}
+      >
+        <Text> Freelancer One Button Away !! </Text>
+      </View>
       <View>
-        <Text style={{ marginBottom: -10, marginLeft: 8 }}>Region: </Text>
+        {/* <Text style={{ marginBottom: -10, marginLeft: 8 }}>Region: </Text> */}
         <Picker
           selectedValue={selectedRegions}
           onValueChange={(value, index) => setSelectedRegions(value)}

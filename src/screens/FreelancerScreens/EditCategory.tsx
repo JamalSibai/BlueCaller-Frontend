@@ -6,23 +6,89 @@ import {
   TextInput,
 } from "react-native";
 import React, { useState } from "react";
+import { Picker } from "@react-native-picker/picker";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { store } from "../../redux/store";
+import { updateEditingProfile } from "../../redux/slices/userSlice";
 
 export default function EditCategory({ navigation }) {
-  const [category, setCategory] = useState(null);
+  const user = useSelector((state) => state?.user);
+  const [selectedCategories, setSelectedCategories] = useState("");
+  const [newCategory, setNewCategory] = useState(null);
+  const [categories] = useState(
+    [
+      "Electricity",
+      "Air Conditioning",
+      "Satellite",
+      "Pluming",
+      "Carpentry",
+      "Welding",
+      "General Constraction",
+      "Car Mechanic",
+      "Car Electricity",
+      "Tires Expert",
+      "Glass and Aluminum",
+      "Elevator Maintenance",
+    ].sort()
+  );
+
+  const EditCategory = async () => {
+    if (newCategory == null) {
+      return alert("Choose Category");
+    }
+    try {
+      const res = await axios.post(
+        `https://bluecaller.tk/api/auth/edit-category`,
+        {
+          category: newCategory,
+        },
+        {
+          headers: {
+            Authorization: "bearer " + user.userProfile.token,
+            Accept: "application / json",
+          },
+        }
+      );
+      if (res.data.hasOwnProperty("status")) {
+        console.log(res.data);
+        alert("Category Changed");
+        store.dispatch(
+          updateEditingProfile({
+            editingProfile: {
+              edited: newCategory,
+            },
+          })
+        );
+
+        navigation.navigate("Profile");
+      } else {
+        // reload();
+        console.log(res.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <View style={{ flex: 1, alignItems: "center" }}>
       <View style={{ alignItems: "center", marginTop: 200, borderWidth: 1 }}>
         <Text style={styles.nameTxt}> Change Category </Text>
-        <TextInput
-          style={styles.nameTxt}
-          placeholder="Edit Category"
-          placeholderTextColor="grey"
-          onChangeText={(category) => setCategory(category)}
-        />
+        <Picker
+          selectedValue={selectedCategories}
+          onValueChange={(value, index) => setNewCategory(value)}
+          mode="dropdown" // Android only
+          style={styles.picker}
+        >
+          {categories.map((c) => (
+            <Picker.Item label={c} value={c} key={c} />
+          ))}
+        </Picker>
         <View style={{ alignItems: "center", marginTop: 50 }}>
           <TouchableOpacity
             style={[styles.buttonContainer, styles.fabookButton]}
-            // onPress={onpress}
+            onPress={EditCategory}
           >
             <View style={styles.socialButtonContent}>
               <Text style={styles.loginText}>Edit</Text>

@@ -6,9 +6,52 @@ import {
   TextInput,
 } from "react-native";
 import React, { useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { store } from "../../redux/store";
+import { updateEditingProfile } from "../../redux/slices/userSlice";
 
 export default function EditPassword({ navigation }) {
-  const [password, setPassword] = useState(null);
+  const [newPassword, setNewPassword] = useState("");
+  const user = useSelector((state) => state?.user);
+
+  const editPassword = async () => {
+    if (newPassword.length < 4) {
+      return alert("Password should be longer than 3 characters");
+    }
+    try {
+      const res = await axios.post(
+        `https://bluecaller.tk/api/auth/edit-password`,
+        {
+          password: newPassword,
+        },
+        {
+          headers: {
+            Authorization: "bearer " + user.userProfile.token,
+            Accept: "application / json",
+          },
+        }
+      );
+      if (res.data.hasOwnProperty("status")) {
+        console.log(res.data);
+        alert("Password Changed");
+        store.dispatch(
+          updateEditingProfile({
+            editingProfile: {
+              edited: newPassword,
+            },
+          })
+        );
+        navigation.navigate("Profile");
+      } else {
+        // reload();
+        console.log(res.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <View style={{ flex: 1, alignItems: "center" }}>
       <View style={{ alignItems: "center", marginTop: 200, borderWidth: 1 }}>
@@ -17,12 +60,13 @@ export default function EditPassword({ navigation }) {
           style={styles.nameTxt}
           placeholder="Edit Password"
           placeholderTextColor="grey"
-          onChangeText={(Password) => setPassword(Password)}
+          onChangeText={(Password) => setNewPassword(Password)}
+          secureTextEntry={true}
         />
         <View style={{ alignItems: "center", marginTop: 50 }}>
           <TouchableOpacity
             style={[styles.buttonContainer, styles.fabookButton]}
-            // onPress={onpress}
+            onPress={editPassword}
           >
             <View style={styles.socialButtonContent}>
               <Text style={styles.loginText}>Edit</Text>

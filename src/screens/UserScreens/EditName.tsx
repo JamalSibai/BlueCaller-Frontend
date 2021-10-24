@@ -6,9 +6,54 @@ import {
   TextInput,
 } from "react-native";
 import React, { useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { store } from "../../redux/store";
+import { updateEditingProfile } from "../../redux/slices/userSlice";
 
 export default function EditName({ navigation }) {
-  const [name, setName] = useState(null);
+  const user = useSelector((state) => state?.user);
+  const [newName, setName] = useState("");
+
+  const editName = async () => {
+    if (newName == "") {
+      return alert("Enter a Name");
+    }
+    console.log("in adddates");
+    try {
+      const res = await axios.post(
+        `https://bluecaller.tk/api/auth/edit-name`,
+        {
+          name: newName,
+        },
+        {
+          headers: {
+            Authorization: "bearer " + user.userProfile.token,
+            Accept: "application / json",
+          },
+        }
+      );
+      if (res.data.hasOwnProperty("status")) {
+        console.log(res.data);
+        alert("Name Edited");
+        store.dispatch(
+          updateEditingProfile({
+            editingProfile: {
+              edited: newName,
+            },
+          })
+        );
+
+        navigation.navigate("Profile");
+      } else {
+        // reload();
+        console.log(res.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <View style={{ flex: 1, alignItems: "center" }}>
       <View style={{ alignItems: "center", marginTop: 200, borderWidth: 1 }}>
@@ -22,7 +67,7 @@ export default function EditName({ navigation }) {
         <View style={{ alignItems: "center", marginTop: 50 }}>
           <TouchableOpacity
             style={[styles.buttonContainer, styles.fabookButton]}
-            // onPress={onpress}
+            onPress={editName}
           >
             <View style={styles.socialButtonContent}>
               <Text style={styles.loginText}>Edit</Text>

@@ -12,6 +12,7 @@ import { deleteUser } from "../../redux/slices/userSlice";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import EmptyState from "../../components/EmptyState";
+import { updateEditingProfile } from "../../redux/slices/userSlice";
 
 export default function FreelancerProfile({ navigation }) {
   const [name, setName] = useState(null);
@@ -50,7 +51,6 @@ export default function FreelancerProfile({ navigation }) {
   };
 
   const userProfile = async () => {
-    console.log(user.userProfile.token);
     try {
       const res = await axios.get(
         `https://bluecaller.tk/api/auth/get-freelancer-profile`,
@@ -83,7 +83,7 @@ export default function FreelancerProfile({ navigation }) {
   useEffect(() => {
     console.log("in");
     userProfile();
-  }, []);
+  }, [user.editingProfile.edited]);
 
   return data ? (
     <View style={{ backgroundColor: "white" }}>

@@ -42,12 +42,12 @@ export default function Messages({ navigation }) {
     <ScrollView>
       <View style={{ backgroundColor: "#fff", flex: 1 }}>
         {data.map((d) => (
-          <Message props={d} />
+          <Message props={d} key={d.message.id} />
         ))}
       </View>
     </ScrollView>
   ) : (
-    <EmptyState loading={true} key={props.message.id} />
+    <EmptyState loading={true} />
   );
 }
 
