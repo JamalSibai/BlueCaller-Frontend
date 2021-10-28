@@ -13,6 +13,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { store } from "../../redux/store";
 import { updateFreelancerSearch } from "../../redux/slices/userSlice";
 import { useSelector } from "react-redux";
+import { colors } from "../../constants/palette";
 
 export default function Home({ navigation }) {
   const [date, setDate] = useState("");
@@ -84,46 +85,79 @@ export default function Home({ navigation }) {
       >
         <Text> Freelancer One Button Away !! </Text>
       </View>
-      <View>
-        {/* <Text style={{ marginBottom: -10, marginLeft: 8 }}>Region: </Text> */}
-        <Picker
-          selectedValue={selectedRegions}
-          onValueChange={(value, index) => setSelectedRegions(value)}
-          mode="dropdown" // Android only
-          style={styles.picker}
-        >
-          {regions.map((r) => (
-            <Picker.Item label={r} value={r} key={r} />
-          ))}
-        </Picker>
+      <View style={styles.pickerView}>
+        <Text style={{ color: "#585858", fontSize: 15 }}>Region: </Text>
+        <View style={{ borderWidth: 1 }}>
+          <Picker
+            selectedValue={selectedRegions}
+            onValueChange={(value, index) => setSelectedRegions(value)}
+            mode="dropdown" // Android only
+            style={styles.picker}
+          >
+            {regions.map((r) => (
+              <Picker.Item label={r} value={r} key={r} />
+            ))}
+          </Picker>
+        </View>
       </View>
 
-      <Picker
-        selectedValue={selectedCategories}
-        onValueChange={(value, index) => setSelectedCategories(value)}
-        mode="dropdown" // Android only
-        style={styles.picker}
-      >
-        {categories.map((c) => (
-          <Picker.Item label={c} value={c} key={c} />
-        ))}
-      </Picker>
-      <TouchableOpacity onPress={onpress}>
-        <View style={{ flexDirection: "row", marginTop: 10 }}>
-          <Text style={styles.TextInput}>Appointment Locations</Text>
-          <MaterialCommunityIcons name={"menu-right"} size={28} color="grey" />
+      <View style={styles.pickerView}>
+        <Text style={{ color: "#585858", fontSize: 15 }}>category: </Text>
+        <View style={{ borderWidth: 1 }}>
+          <Picker
+            selectedValue={selectedCategories}
+            onValueChange={(value, index) => setSelectedCategories(value)}
+            mode="dropdown" // Android only
+            style={styles.picker}
+          >
+            {categories.map((c) => (
+              <Picker.Item label={c} value={c} key={c} />
+            ))}
+          </Picker>
         </View>
-      </TouchableOpacity>
+      </View>
+      <View style={styles.pickerView}>
+        <Text style={{ color: "#585858", fontSize: 15 }}>location: </Text>
+        <View style={{ borderWidth: 1 }}>
+          <TouchableOpacity onPress={onpress}>
+            <View style={{ flexDirection: "row", marginTop: 10 }}>
+              <Text style={styles.TextInput}>Appointment Location</Text>
+              <View style={{ paddingTop: 5 }}>
+                <MaterialCommunityIcons
+                  name={"menu-right"}
+                  size={28}
+                  color="grey"
+                />
+              </View>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
 
-      <DatePicker
-        style={styles.picker}
-        date={date}
-        placeholder="Select Date"
-        format="YYYY-MM-DD"
-        confirmBtnText="Confirm"
-        CancelBtnText="Cancel"
-        onDateChange={(d) => setDate(d)}
-      />
+      <View style={styles.pickerView}>
+        <Text style={{ color: "#585858", fontSize: 15 }}>date: </Text>
+        {/* <View style={{ borderWidth: 1 }}> */}
+        <DatePicker
+          style={styles.datepicker}
+          date={date}
+          placeholder="Select Date"
+          format="YYYY-MM-DD"
+          confirmBtnText="Confirm"
+          CancelBtnText="Cancel"
+          onDateChange={(d) => setDate(d)}
+          showIcon={false}
+          // customStyles={{
+          //   dateInput: {
+          //     marginLeft: 0,
+          //     color: "#000",
+          //     fontSize: 16,
+          //   },
+          //   // ... You can check the source to find the other keys.
+          // }}
+        />
+        {/* </View> */}
+      </View>
+
       <View style={{ alignItems: "center", marginTop: 50 }}>
         <TouchableOpacity
           style={[styles.buttonContainer, styles.fabookButton]}
@@ -146,27 +180,31 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   picker: {
-    marginVertical: 30,
+    marginVertical: 20,
     width: 300,
-    padding: 10,
-    // borderWidth: 1,
     borderColor: "#666",
     alignItems: "center",
   },
+  pickerView: {
+    width: 300,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 20,
+    borderColor: "#666",
+  },
+  datepicker: {
+    width: 300,
+
+    borderColor: "#666",
+  },
   TextInput: {
     backgroundColor: "white",
-    // borderRadius: 15,
-    // borderColor: "#666",
     color: "black",
     alignSelf: "center",
-    // borderWidth: 1,
     width: 260,
     padding: 10,
     height: 50,
-    fontSize: 15,
-    marginLeft: -10,
-    // marginTop: 10,
-    // flexDirection: "row",
+    fontSize: 16,
   },
   labelText: {
     marginLeft: 0,
@@ -180,14 +218,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
-    width: 280,
-    // borderRadius: 30,
+    width: 300,
   },
   loginText: {
     color: "white",
   },
   fabookButton: {
-    backgroundColor: "#000",
+    backgroundColor: colors.blue,
   },
   socialButtonContent: {
     flexDirection: "row",

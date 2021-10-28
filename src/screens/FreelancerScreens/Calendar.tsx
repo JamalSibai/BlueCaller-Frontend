@@ -12,16 +12,6 @@ import { updateAppointmentDate } from "../../redux/slices/userSlice";
 export default function Calendar({ navigation }) {
   const [data, setData] = useState(null);
   const user = useSelector((state) => state?.user);
-  // const [Dates] = useState(
-  //   [
-  //     "2021-12-25",
-  //     "2021-12-26",
-  //     "2021-12-28",
-  //     "2021-12-23",
-  //     "2021-12-1",
-  //     "2021-12-24",
-  //   ].sort()
-  // );
 
   const navigate = (freelancerDate) => {
     console.log("in Connections" + freelancerDate);
@@ -36,7 +26,6 @@ export default function Calendar({ navigation }) {
   };
 
   const userDates = async () => {
-    console.log("in userConnection");
     try {
       const res = await axios.get(`https://bluecaller.tk/api/auth/get-dates`, {
         headers: {
@@ -47,16 +36,8 @@ export default function Calendar({ navigation }) {
       if (res.data.hasOwnProperty("status")) {
         console.log(res.data);
       } else {
-        // setData();
-        // console.log(res.data[0].date_of_day);
-        // for (let i = 0; i < res.data.length; i++) {
-        //   // console.log(res.data[i].date_of_day);
-        //   data.push(res.data[i].date_of_day);
-        // }
         setData(res.data);
-        console.log(res.data[0].date_of_day);
-        console.log(data);
-        // setValue(1);
+        console.log(res.data);
       }
     } catch (err) {
       console.log(err);
@@ -64,12 +45,11 @@ export default function Calendar({ navigation }) {
   };
 
   useEffect(() => {
-    console.log("in");
     userDates();
-  }, []);
+  }, [user.changeDate.change]);
 
   return data ? (
-    <View>
+    <View style={{ flex: 1 }}>
       <View
         style={{
           alignItems: "center",
@@ -80,27 +60,16 @@ export default function Calendar({ navigation }) {
       >
         <Text> Calendar </Text>
       </View>
-      <ScrollView>
+      <ScrollView style={{ flex: 1 }}>
         <View style={{ backgroundColor: "#fff", flex: 1 }}>
           {data.map((d) => (
             <DateListing props={d} key={d.id} navigate={navigate} />
           ))}
         </View>
       </ScrollView>
-
-      {/* <Picker
-        selectedValue={"date"}
-        onValueChange={(value, index) => setDate(value)}
-        mode="dropdown" // Android only
-        style={styles.picker}
-      >
-        {data.map((d) => (
-          <Picker.Item label={d} value={d} key={d} />
-        ))}
-      </Picker> */}
     </View>
   ) : (
-    <EmptyState loading={true} />
+    <EmptyState loading={true} icon={"coffee"} />
   );
 }
 

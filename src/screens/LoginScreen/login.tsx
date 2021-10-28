@@ -2,22 +2,19 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
   Image,
   TouchableOpacity,
-  TouchableHighlight,
   TextInput,
-  Dimensions,
-  Platform,
-  Linking,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { updateUserProfile } from "../../redux/slices/userSlice";
 import { updateEditingProfile } from "../../redux/slices/userSlice";
 import { updateDoneFreelancer } from "../../redux/slices/userSlice";
 import { updateFreelancerSearch } from "../../redux/slices/userSlice";
+import { updateChangeDate } from "../../redux/slices/userSlice";
 import { store } from "../../redux/store";
 import axios from "axios";
+import { colors } from "../../constants/palette";
 
 export default function login({ navigation, props }) {
   const [email, setEmail] = useState("");
@@ -26,9 +23,6 @@ export default function login({ navigation, props }) {
 
   const Register = () => {
     navigation.navigate("User Register");
-  };
-  const freelancerRegister = () => {
-    navigation.navigate("Freelancer Register");
   };
 
   const login = async () => {
@@ -53,6 +47,13 @@ export default function login({ navigation, props }) {
             freelancerSearch: {
               latitude: "",
               longitude: "",
+            },
+          })
+        );
+        store.dispatch(
+          updateChangeDate({
+            changeDate: {
+              change: "adddate",
             },
           })
         );
@@ -137,18 +138,12 @@ export default function login({ navigation, props }) {
         <Text style={styles.loginText}>Login</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.buttonContainerRegister}
-        onPress={Register}
-      >
-        <Text style={styles.btnText}>User Register</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.buttonContainerRegister}
-        onPress={freelancerRegister}
-      >
-        <Text style={styles.btnText}>Freelancer Register</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonContainerRegister}>
+        <Text style={styles.btnText}>Don't have an account?</Text>
+        <TouchableOpacity onPress={Register}>
+          <Text style={styles.btnTextRegister}>Register</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -223,7 +218,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   loginButton: {
-    backgroundColor: "#000",
+    backgroundColor: colors.blue,
 
     shadowColor: "#808080",
     shadowOffset: {
@@ -240,7 +235,6 @@ const styles = StyleSheet.create({
   },
   bgImage: {
     flex: 1,
-    // resizeMode,
     position: "absolute",
     width: "100%",
     height: "100%",
@@ -248,7 +242,11 @@ const styles = StyleSheet.create({
   },
   btnText: {
     color: "#000",
+  },
+  btnTextRegister: {
+    color: colors.blue,
     fontWeight: "bold",
+    marginLeft: 3,
   },
   textByRegister: {
     color: "white",

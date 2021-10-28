@@ -47,7 +47,7 @@ export default function Messages({ navigation }) {
       </View>
     </ScrollView>
   ) : (
-    <EmptyState loading={true} />
+    <EmptyState loading={true} icon={"coffee"} />
   );
 }
 

@@ -40,15 +40,17 @@ export default function History({ navigation }) {
   }, []);
 
   return data ? (
-    <ScrollView>
-      <View style={{ backgroundColor: "#fff", flex: 1 }}>
-        {data.map((d) => (
-          <HistoryCard props={d} key={d.id} />
-        ))}
-      </View>
-    </ScrollView>
+    <View style={{ backgroundColor: "white", flex: 1 }}>
+      <ScrollView>
+        <View style={{ backgroundColor: "#fff", flex: 1 }}>
+          {data.map((d) => (
+            <HistoryCard props={d} key={d.id} />
+          ))}
+        </View>
+      </ScrollView>
+    </View>
   ) : (
-    <EmptyState loading={true} />
+    <EmptyState loading={true} icon={"coffee"} />
   );
 }
 

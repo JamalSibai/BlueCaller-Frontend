@@ -15,6 +15,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
+import { colors } from "../../constants/palette";
 
 export default function userRegister({ navigation, props }) {
   const [email, setEmail] = useState("");
@@ -24,7 +25,7 @@ export default function userRegister({ navigation, props }) {
   const [firebase_token, setFirebase_token] = useState("");
 
   const login = () => {
-    navigation.pop();
+    navigation.navigate("Freelancer Register");
   };
 
   async function registerForPushNotificationsAsync() {
@@ -59,40 +60,49 @@ export default function userRegister({ navigation, props }) {
   }
 
   const register = async () => {
-    // if (email == "") {
-    //   return alert("Enter Email");
-    // }
-    // if (password == "") {
-    //   return alert("Enter Password");
-    // }
-    registerForPushNotificationsAsync();
-    try {
-      const res = await axios.post(`https://bluecaller.tk/api/auth/register`, {
-        name: name,
-        email: email,
-        password: password,
-        password_confirmation: password,
-        phone: phone,
-        user_type: 0,
-        firebase_token: firebase_token,
-      });
-      if (res.data.hasOwnProperty("status")) {
-        console.log(res.data);
-        // console.log("hey");
-        // console.log(name);
-        // console.log(email);
-        // console.log(password);
-        // console.log(phone);
-        // console.log(firebase_token);
-        alert("User Successfuly Registered");
-        navigation.pop();
-      } else {
-        // setData(null);
-        console.log(res.data);
+    if (!name) {
+      alert("Please enter your  name");
+    } else if (!email) {
+      alert("Please enter your email");
+    } else if (!email.includes("@gmail.com")) {
+      alert("Please enter a valid email");
+    } else if (!password) {
+      alert("Please enter your password");
+    } else if (password.length < 5) {
+      alert("Please enter a valid password");
+    } else if (!phone) {
+      alert("Please enter your phone number");
+    } else {
+      registerForPushNotificationsAsync();
+      try {
+        const res = await axios.post(
+          `https://bluecaller.tk/api/auth/register`,
+          {
+            name: name,
+            email: email,
+            password: password,
+            password_confirmation: password,
+            phone: phone,
+            user_type: 0,
+            firebase_token: firebase_token,
+          }
+        );
+        if (res.data.hasOwnProperty("status")) {
+          console.log(res.data);
+          // console.log("hey");
+          // console.log(name);
+          // console.log(email);
+          // console.log(password);
+          // console.log(phone);
+          // console.log(firebase_token);
+          alert("User Successfuly Registered");
+          navigation.pop();
+        } else {
+          console.log(res.data);
+        }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      alert("Wrong Email or Password!");
-      console.log(err);
     }
   };
 
@@ -159,9 +169,12 @@ export default function userRegister({ navigation, props }) {
         <Text style={styles.loginText}>Register</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.buttonContainerRegister} onPress={login}>
-        <Text style={styles.btnText}>Login?</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonContainerRegister}>
+        <Text style={styles.btnText}>Are you a freelancer?</Text>
+        <TouchableOpacity onPress={login}>
+          <Text style={styles.btnTextRegister}>Register</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -221,7 +234,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    // marginBottom: 20,
     width: 300,
     borderRadius: 30,
     backgroundColor: "transparent",
@@ -236,7 +248,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   loginButton: {
-    backgroundColor: "#000",
+    backgroundColor: colors.blue,
 
     shadowColor: "#808080",
     shadowOffset: {
@@ -253,7 +265,6 @@ const styles = StyleSheet.create({
   },
   bgImage: {
     flex: 1,
-    // resizeMode,
     position: "absolute",
     width: "100%",
     height: "100%",
@@ -262,9 +273,11 @@ const styles = StyleSheet.create({
   btnText: {
     color: "#000",
     fontWeight: "bold",
-    textShadowColor: "rgba(0, 0, 0, 0.75)",
-    textShadowOffset: { width: -1, height: 1 },
-    textShadowRadius: 10,
+  },
+  btnTextRegister: {
+    color: colors.blue,
+    fontWeight: "bold",
+    marginLeft: 3,
   },
   textByRegister: {
     color: "white",

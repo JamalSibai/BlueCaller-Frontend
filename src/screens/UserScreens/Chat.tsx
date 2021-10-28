@@ -5,6 +5,7 @@ import {
   Button,
   TouchableOpacity,
   TextInput,
+  Image,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -16,11 +17,44 @@ import { store } from "../../redux/store";
 import { updateMessage_id } from "../../redux/slices/userSlice";
 import Messages from "./Messages";
 import Message from "../../components/Messages";
+import ChatMessage from "../../components/ChatMessage";
 
 export default function Chat({ navigation }) {
   const user = useSelector((state) => state?.user);
-  // console.log("in chat", user.message_id.user_id);
   const [sendmessage, setMessage] = useState("");
+  const [data, setData] = useState(null);
+
+  const getChat = async () => {
+    // return console.log(user.message_id.user_id);
+    try {
+      const res = await axios.post(
+        `https://bluecaller.tk/api/auth/get-chat`,
+        {
+          otheruser: user.message_id.user_id,
+        },
+        {
+          headers: {
+            Authorization: "bearer " + user.userProfile.token,
+            Accept: "application / json",
+          },
+        }
+      );
+      if (res.data.hasOwnProperty("status")) {
+        console.log(res.data);
+      } else {
+        setData(res.data);
+        // console.log(res.data);
+        // console.log("Messages");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    console.log("in");
+    getChat();
+  }, []);
 
   const sendMessage = async () => {
     if (sendmessage == "") {
@@ -41,7 +75,8 @@ export default function Chat({ navigation }) {
         }
       );
       if (res.data.hasOwnProperty("status")) {
-        console.log(res.data);
+        // console.log(res.data);
+        getChat();
       } else {
         // setData(null);
         console.log("Done");
@@ -51,87 +86,98 @@ export default function Chat({ navigation }) {
     }
   };
 
-  const [name, setName] = useState(null);
-  return (
-    <View style={{ flex: 1, alignItems: "center" }}>
-      <View style={{ alignItems: "center", marginTop: 200, borderWidth: 1 }}>
-        <Text style={styles.nameTxt}> Send Message </Text>
-        <TextInput
-          style={styles.nameTxtMessage}
-          placeholder="Message ..."
-          placeholderTextColor="grey"
-          onChangeText={(message) => setMessage(message)}
-        />
-        <View style={{ alignItems: "center", marginTop: 50 }}>
-          <TouchableOpacity
-            style={[styles.buttonContainer, styles.fabookButton]}
-            onPress={sendMessage}
-          >
-            <View style={styles.socialButtonContent}>
-              <Text style={styles.loginText}>Send</Text>
-            </View>
-          </TouchableOpacity>
+  return data ? (
+    <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, marginBottom: -410 }}>
+        <Message image={user.message_id.image} name={user.message_id.name} />
+      </View>
+      <View style={{ flex: 1 }}>
+        <ScrollView>
+          <View style={{ backgroundColor: "#fff", flex: 1 }}>
+            {data.map((d) => (
+              // <Text>bla</Text>
+              <ChatMessage props={d} key={d.message.id} />
+            ))}
+          </View>
+        </ScrollView>
+      </View>
+      <View style={styles.footer}>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.inputs}
+            placeholder="Write a message..."
+            underlineColorAndroid="transparent"
+            onChangeText={(message) => setMessage(message)}
+          />
         </View>
+
+        <TouchableOpacity style={styles.btnSend} onPress={() => sendMessage()}>
+          <Image
+            source={require("../../../assets/send.png")}
+            style={styles.iconSend}
+          />
+        </TouchableOpacity>
       </View>
     </View>
+  ) : (
+    <EmptyState loading={true} icon={"coffee"} />
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
   },
-  nameTxt: {
-    marginLeft: 35,
-    fontWeight: "700",
-    color: "#222",
-    fontSize: 20,
-    width: 300,
+  list: {
+    paddingHorizontal: 17,
+  },
+  footer: {
+    flexDirection: "row",
+    // height: 60,
+    backgroundColor: "#eeeeee",
+    paddingHorizontal: 10,
+    padding: 5,
     marginTop: 10,
+    // zIndex: 0,
+    // position: "absolute",
+  },
+  btnSend: {
+    backgroundColor: "#FFFFFF",
+    width: 40,
+    height: 40,
+    borderRadius: 360,
     alignItems: "center",
-    marginBottom: 10,
+    justifyContent: "center",
   },
-  nameTxtMessage: {
-    marginLeft: 35,
-    fontWeight: "700",
-    color: "#222",
-    fontSize: 20,
-    width: 300,
-    marginTop: 10,
-    // alignItems: "center",
-    marginBottom: 20,
-    alignSelf: "flex-start",
+  iconSend: {
+    width: 30,
+    height: 30,
+    alignSelf: "center",
   },
-  picker: {
-    marginVertical: 30,
-    width: 300,
+  inputContainer: {
+    borderBottomColor: "#F5FCFF",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 30,
+    borderBottomWidth: 1,
+    height: 40,
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
     padding: 10,
-    // borderWidth: 1,
-    borderColor: "#666",
-    alignItems: "center",
+    marginRight: 10,
   },
-  buttonContainer: {
-    height: 45,
+  inputs: {
+    height: 40,
+    marginLeft: 16,
+    borderBottomColor: "#FFFFFF",
+    flex: 1,
+  },
+  item: {
+    marginVertical: 14,
+    flex: 1,
     flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 20,
-    width: 280,
-    marginTop: -50,
-    // borderRadius: 30,
-  },
-  loginText: {
-    color: "white",
-  },
-  fabookButton: {
-    backgroundColor: "#000",
-  },
-  socialButtonContent: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: "#eeeeee",
+    borderRadius: 300,
+    padding: 5,
   },
 });

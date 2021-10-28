@@ -12,6 +12,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
+import { colors } from "../constants/palette";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -34,7 +35,7 @@ export default function FreelancerCard({
 }) {
   const user = useSelector((state) => state?.user);
   const [id, setId] = useState({ props });
-  console.log(id.props[0].id);
+  console.log(id);
   console.log("id");
   const onPressButton = async () => {
     abc();
@@ -56,12 +57,10 @@ export default function FreelancerCard({
         }
       );
       if (res.data.hasOwnProperty("status")) {
+        console.log(res.data);
         console.log("Done");
       } else {
-        // setData(res.data);
-
         console.log("Done");
-        // console.log(data);
       }
     } catch (err) {
       console.log(err);
@@ -69,40 +68,37 @@ export default function FreelancerCard({
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.box}>
-        <View style={styles.innerbox}>
-          <Image style={styles.profileImage} source={{ uri: props[0].image }} />
-          <View>
-            <Text style={styles.name}>{props[0].name}</Text>
+    <View>
+      <View style={styles.container}>
+        <View style={styles.box}>
+          <View style={styles.innerbox}>
+            <Image
+              style={styles.profileImage}
+              source={{ uri: props[0].image }}
+            />
+            <View>
+              <Text style={styles.name}>{props[0].name}</Text>
 
-            <Text style={{ paddingLeft: 18 }}>
-              {props[1].hourly_price}$/Hour
-            </Text>
-            <Rating
-              style={{ paddingTop: 5, paddingLeft: 15 }}
-              type="star"
-              startingValue={props[2].rating}
-              readonly
-              imageSize={22}
-              ratingCount={5}
+              <Text style={{ paddingLeft: 18 }}>
+                {props[1].hourly_price}$/Hour
+              </Text>
+              <Rating
+                style={{ paddingTop: 5, paddingLeft: 15 }}
+                type="star"
+                startingValue={props[2].rating}
+                readonly
+                imageSize={22}
+                ratingCount={5}
+              />
+            </View>
+          </View>
+          <View style={{ width: "100%" }}>
+            <Button
+              title="Book Now"
+              color={colors.blue}
+              onPress={() => onPressButton()}
             />
           </View>
-        </View>
-        {/* <TouchableOpacity
-          style={[styles.buttonContainer, styles.fabookButton]}
-          onPress={() => onPressButton()}
-        >
-          <View style={styles.socialButtonContent}>
-            <Text style={styles.loginText}>Edit</Text>
-          </View>
-        </TouchableOpacity> */}
-        <View style={{ width: "100%" }}>
-          <Button
-            title="Book Now"
-            color="#000"
-            onPress={() => onPressButton()}
-          />
         </View>
       </View>
     </View>
@@ -111,7 +107,10 @@ export default function FreelancerCard({
 
 const styles = StyleSheet.create({
   container: {
-    padding: 40,
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    backgroundColor: "white",
   },
   box: {
     marginTop: 10,
@@ -138,7 +137,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#000",
     marginBottom: 10,
-    marginTop: 10,
+    // marginTop: 5,
+    marginLeft: -40,
   },
   name: {
     fontSize: 25,

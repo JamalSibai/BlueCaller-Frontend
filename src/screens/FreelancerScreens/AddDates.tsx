@@ -3,14 +3,13 @@ import React, { useState, useEffect, useRef, Component } from "react";
 import DatePicker from "react-native-datepicker";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { colors } from "../../constants/palette";
+import { updateChangeDate } from "../../redux/slices/userSlice";
+import { store } from "../../redux/store";
 
 export default function AddDates({ navigation }) {
   const user = useSelector((state) => state?.user);
   const [adddate, setAddDate] = useState("");
-
-  const onpress = () => {
-    // navigation.navigate("Maps");
-  };
 
   const AddDates = async () => {
     if (adddate == "") {
@@ -32,12 +31,17 @@ export default function AddDates({ navigation }) {
       );
       if (res.data.hasOwnProperty("status")) {
         console.log(res.data);
-        // setData(null);
         alert(adddate + " added to Schedule");
+        store.dispatch(
+          updateChangeDate({
+            changeDate: {
+              change: adddate,
+            },
+          })
+        );
       } else {
-        alert(adddate + " added to Schedule");
-        // reload();
-        console.log(res.data);
+        // alert(adddate + " added to Schedule");
+        // console.log(res.data);
       }
     } catch (err) {
       alert(adddate + " already in your schedule!");
@@ -46,25 +50,34 @@ export default function AddDates({ navigation }) {
   };
 
   return (
-    <View style={{ flex: 1, alignItems: "center" }}>
-      <View style={{ alignItems: "center", marginTop: 200, borderWidth: 1 }}>
-        <Text style={styles.nameTxt}> Add To Your Calendar </Text>
-        <DatePicker
-          style={styles.picker}
-          date={adddate}
-          placeholder="Select Date"
-          format="YYYY-MM-DD"
-          confirmBtnText="Confirm"
-          CancelBtnText="Cancel"
-          onDateChange={(d) => setAddDate(d)}
-        />
-        <View style={{ alignItems: "center", marginTop: 50 }}>
+    <View style={{ flex: 1, backgroundColor: "#F5F5F5" }}>
+      <View
+        style={{
+          alignItems: "center",
+          paddingTop: 20,
+          backgroundColor: "white",
+          flex: 1,
+        }}
+      >
+        <View style={{ marginTop: 180 }}>
+          <Text style={styles.nameTxt}> Set Your Availability </Text>
+          <DatePicker
+            style={styles.picker}
+            date={adddate}
+            placeholder="Select Date"
+            format="YYYY-MM-DD"
+            confirmBtnText="Confirm"
+            CancelBtnText="Cancel"
+            onDateChange={(d) => setAddDate(d)}
+          />
+        </View>
+        <View style={{ alignItems: "center", marginTop: -127 }}>
           <TouchableOpacity
             style={[styles.buttonContainer, styles.fabookButton]}
             onPress={AddDates}
           >
             <View style={styles.socialButtonContent}>
-              <Text style={styles.loginText}>Add To Schedule</Text>
+              <Text style={styles.loginText}>Add Availability</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -81,19 +94,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   nameTxt: {
-    marginLeft: 35,
-    fontWeight: "700",
     color: "#222",
-    fontSize: 20,
+    fontSize: 25,
     width: 300,
     marginTop: 10,
+    marginLeft: -5,
     alignItems: "center",
+    marginBottom: -10,
   },
   picker: {
     marginVertical: 30,
     width: 300,
-    padding: 10,
-    // borderWidth: 1,
     borderColor: "#666",
     alignItems: "center",
   },
@@ -103,15 +114,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
-    width: 280,
-    marginTop: -50,
-    // borderRadius: 30,
+    width: 400,
+    paddingTop: 30,
+    paddingBottom: 30,
+    marginTop: "105%",
   },
   loginText: {
     color: "white",
+    fontSize: 20,
   },
   fabookButton: {
-    backgroundColor: "#000",
+    backgroundColor: colors.blue,
   },
   socialButtonContent: {
     flexDirection: "row",

@@ -18,6 +18,8 @@ export interface User {
   };
   message_id?: {
     user_id: number;
+    image: string;
+    name: string;
   };
   appointmentDate?: {
     date: string;
@@ -28,6 +30,9 @@ export interface User {
   DoneFreelancer?: {
     Done: string;
   };
+  changeDate?: {
+    change: string;
+  };
 }
 
 const initialState: User = {
@@ -36,6 +41,7 @@ const initialState: User = {
   message_id: null,
   appointmentDate: null,
   editingProfile: null,
+  changeDate: null,
 };
 
 const userSlice = createSlice({
@@ -51,33 +57,24 @@ const userSlice = createSlice({
     },
     updateUserProfile(state, action) {
       state.userProfile = action.payload.userProfile;
-      // NEVER CALL APIS here
-      // asyncStorageManager.setItem("userProfile", action.payload.userProfile)
     },
     updateFreelancerSearch(state, action) {
       state.freelancerSearch = action.payload.freelancerSearch;
-      // NEVER CALL APIS here
-      // asyncStorageManager.setItem("userProfile", action.payload.userProfile)
     },
     updateMessage_id(state, action) {
       state.message_id = action.payload.message_id;
-      // NEVER CALL APIS here
-      // asyncStorageManager.setItem("userProfile", action.payload.userProfile)
     },
     updateAppointmentDate(state, action) {
       state.appointmentDate = action.payload.appointmentDate;
-      // NEVER CALL APIS here
-      // asyncStorageManager.setItem("userProfile", action.payload.userProfile)
     },
     updateEditingProfile(state, action) {
       state.editingProfile = action.payload.editingProfile;
-      // NEVER CALL APIS here
-      // asyncStorageManager.setItem("userProfile", action.payload.userProfile)
     },
     updateDoneFreelancer(state, action) {
       state.DoneFreelancer = action.payload.DoneFreelancer;
-      // NEVER CALL APIS here
-      // asyncStorageManager.setItem("userProfile", action.payload.userProfile)
+    },
+    updateChangeDate(state, action) {
+      state.changeDate = action.payload.changeDate;
     },
   },
 });
@@ -91,5 +88,6 @@ export const {
   updateAppointmentDate,
   updateEditingProfile,
   updateDoneFreelancer,
+  updateChangeDate,
 } = userSlice.actions;
 export default userSlice.reducer;

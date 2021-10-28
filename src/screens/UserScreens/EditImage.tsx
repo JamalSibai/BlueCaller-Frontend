@@ -13,10 +13,56 @@ import {
 import React, { useState, useEffect } from "react";
 import { Rating } from "react-native-ratings";
 import * as ImagePicker from "expo-image-picker";
-// import MapView, { Callout, Circle, Marker } from "react-native-maps";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { store } from "../../redux/store";
+import { updateEditingProfile } from "../../redux/slices/userSlice";
+import { colors } from "../../constants/palette";
 
 export default function EditImage({ navigation }) {
+  const user = useSelector((state) => state?.user);
   const [image, setImage] = useState(null);
+  const [imagestr, setImagestr] = useState(null);
+
+  const editImage = async () => {
+    if (image == null) {
+      return alert("Add Image");
+    }
+    // console.log("in adddates");
+    // return console.log(image);
+    try {
+      const res = await axios.post(
+        `https://bluecaller.tk/api/auth/edit-imagebase64`,
+        {
+          image: imagestr,
+        },
+        {
+          headers: {
+            Authorization: "bearer " + user.userProfile.token,
+            Accept: "application / json",
+          },
+        }
+      );
+      if (res.data.hasOwnProperty("status")) {
+        console.log(res.data);
+        alert("Image Edited");
+        store.dispatch(
+          updateEditingProfile({
+            editingProfile: {
+              edited: "image",
+            },
+          })
+        );
+
+        navigation.pop();
+      } else {
+        // reload();
+        console.log(res.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -36,12 +82,15 @@ export default function EditImage({ navigation }) {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
+      base64: true,
     });
 
-    console.log(result);
+    // console.log(result);
 
     if (!result.cancelled) {
       setImage(result.uri);
+      setImagestr(result.base64);
+      console.log(image);
     }
   };
 
@@ -49,7 +98,7 @@ export default function EditImage({ navigation }) {
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <TouchableOpacity
         style={[styles.buttonContainer, styles.fabookButton]}
-        // onPress={Logout}
+        onPress={editImage}
       >
         <View style={styles.socialButtonContent}>
           <Text style={styles.loginText}>Edit Photo</Text>
@@ -61,9 +110,6 @@ export default function EditImage({ navigation }) {
         onPress={pickImage}
         color="#000"
       />
-      {image && (
-        <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-      )}
     </View>
   );
 }
@@ -82,7 +128,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   fabookButton: {
-    backgroundColor: "#000",
+    backgroundColor: colors.blue,
   },
   socialButtonContent: {
     flexDirection: "row",

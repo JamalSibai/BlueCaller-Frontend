@@ -239,7 +239,7 @@ export default function FreelancerProfile({ navigation }) {
       </ScrollView>
     </View>
   ) : (
-    <EmptyState loading={true} />
+    <EmptyState loading={true} icon={"coffee"} />
   );
 }
 
@@ -282,17 +282,18 @@ const styles = StyleSheet.create({
     // flexDirection: "row",
     justifyContent: "space-between",
     width: 280,
-    marginTop: 20,
+    marginTop: 10,
+    marginBottom: 10,
   },
   nameTxtLabel: {
     marginLeft: 28,
     fontWeight: "600",
     color: "#585858",
-    fontSize: 18,
+    fontSize: 15,
     width: 170,
   },
   nameTxt: {
-    marginLeft: 35,
+    marginLeft: 28,
     fontWeight: "700",
     color: "#222",
     fontSize: 20,
@@ -326,7 +327,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   fabookButton: {
-    backgroundColor: "#000",
+    backgroundColor: "red",
   },
   socialButtonContent: {
     flexDirection: "row",

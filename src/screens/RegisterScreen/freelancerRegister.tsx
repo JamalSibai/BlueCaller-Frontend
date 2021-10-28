@@ -16,6 +16,8 @@ import { Picker } from "@react-native-picker/picker";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 import axios from "axios";
+import { colors } from "../../constants/palette";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function freelancerRegister({ navigation, props }) {
   const [email, setEmail] = useState("");
@@ -58,7 +60,10 @@ export default function freelancerRegister({ navigation, props }) {
   );
 
   const login = () => {
-    navigation.pop();
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "login" }],
+    });
   };
 
   async function registerForPushNotificationsAsync() {
@@ -93,59 +98,60 @@ export default function freelancerRegister({ navigation, props }) {
   }
 
   const register = async () => {
-    // if (email == "") {
-    //   return alert("Enter Email");
-    // }
-    // if (password == "") {
-    //   return alert("Enter Password");
-    // }
-    registerForPushNotificationsAsync();
-    try {
-      const res = await axios.post(
-        `https://bluecaller.tk/api/auth/freelancerregister`,
-        {
-          name: name,
-          email: email,
-          password: password,
-          password_confirmation: password,
-          phone: phone,
-          user_type: 0,
-          firebase_token: firebase_token,
-          category: selectedCategories,
-          hourly_price: hourly_price,
-          region: selectedRegions,
+    if (!name) {
+      alert("Please enter your  name");
+    } else if (!email) {
+      alert("Please enter your email");
+    } else if (!email.includes("@gmail.com")) {
+      alert("Please enter a valid email");
+    } else if (!password) {
+      alert("Please enter your password");
+    } else if (password.length < 5) {
+      alert("Please enter a valid password");
+    } else if (!phone) {
+      alert("Please enter your phone number");
+    } else if (!hourly_price) {
+      alert("Please enter your hourly price");
+    } else {
+      await registerForPushNotificationsAsync();
+      try {
+        const res = await axios.post(
+          `https://bluecaller.tk/api/auth/freelancerregister`,
+          {
+            name: name,
+            email: email,
+            password: password,
+            password_confirmation: password,
+            phone: phone,
+            user_type: 1,
+            firebase_token: firebase_token,
+            category: selectedCategories,
+            hourly_price: hourly_price,
+            region: selectedRegions,
+          }
+        );
+        if (res.data.hasOwnProperty("status")) {
+          console.log(res.data);
+          console.log(res);
+          console.log("hey");
+          console.log(name);
+          console.log(email);
+          console.log(password);
+          console.log(phone);
+          console.log(selectedCategories);
+          console.log(hourly_price);
+          console.log(selectedRegions);
+          console.log(firebase_token);
+          alert("User Successfuly Registered");
+          navigation.pop();
+        } else {
+          // setData(null);
+          console.log(res);
         }
-      );
-      if (res.data.hasOwnProperty("status")) {
-        console.log(res.data);
-        console.log(res);
-        console.log("hey");
-        console.log(name);
-        console.log(email);
-        console.log(password);
-        console.log(phone);
-        console.log(selectedCategories);
-        console.log(hourly_price);
-        console.log(selectedRegions);
-        console.log(firebase_token);
-        alert("User Successfuly Registered");
-        navigation.pop();
-      } else {
-        // setData(null);
-        console.log(res);
-        console.log("hey");
-        console.log(name);
-        console.log(email);
-        console.log(password);
-        console.log(phone);
-        console.log(selectedCategories);
-        console.log(hourly_price);
-        console.log(selectedRegions);
-        console.log(firebase_token);
+      } catch (err) {
+        // alert("Wrong Email or Password!");
+        console.log(err);
       }
-    } catch (err) {
-      alert("Wrong Email or Password!");
-      console.log(err);
     }
   };
 
@@ -324,7 +330,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   loginButton: {
-    backgroundColor: "#000",
+    backgroundColor: colors.blue,
 
     shadowColor: "#808080",
     shadowOffset: {
@@ -341,7 +347,6 @@ const styles = StyleSheet.create({
   },
   bgImage: {
     flex: 1,
-    // resizeMode,
     position: "absolute",
     width: "100%",
     height: "100%",
@@ -350,9 +355,6 @@ const styles = StyleSheet.create({
   btnText: {
     color: "#000",
     fontWeight: "bold",
-    textShadowColor: "rgba(0, 0, 0, 0.75)",
-    textShadowOffset: { width: -1, height: 1 },
-    textShadowRadius: 10,
   },
   textByRegister: {
     color: "white",

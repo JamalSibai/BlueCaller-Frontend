@@ -15,6 +15,8 @@ import MapView, { Callout, Circle, Marker } from "react-native-maps";
 import { store } from "../../redux/store";
 import { updateFreelancerSearch } from "../../redux/slices/userSlice";
 import { useSelector } from "react-redux";
+import { color } from "react-native-reanimated";
+import { colors } from "../../constants/palette";
 
 export default function Maps({ navigation, props }) {
   const user = useSelector((state) => state?.user);
@@ -37,19 +39,10 @@ export default function Maps({ navigation, props }) {
       })
     );
     console.log("in");
-    navigation.navigate("Home");
+    navigation.pop();
   };
   return (
     <View>
-      {/* <Button title={"okay"} /> */}
-      {/* <TouchableOpacity
-        style={[styles.buttonContainer, styles.fabookButton]}
-        // onPress={Logout}
-      >
-        <View style={styles.socialButtonContent}>
-          <Text style={styles.loginText}>Logout</Text>
-        </View>
-      </TouchableOpacity> */}
       <MapView
         style={styles.map}
         initialRegion={{
@@ -58,7 +51,7 @@ export default function Maps({ navigation, props }) {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
-        // provider="google"
+        provider="google"
       >
         <Marker
           coordinate={pin}
@@ -134,7 +127,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
     width: 250,
-    borderRadius: 30,
+    // borderRadius: 30,
     zIndex: 0,
   },
   loginText: {
@@ -143,7 +136,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   fabookButton: {
-    backgroundColor: "#000",
+    backgroundColor: colors.blue,
   },
   socialButtonContent: {
     flexDirection: "row",

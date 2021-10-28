@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { store } from "../../redux/store";
 import { updateEditingProfile } from "../../redux/slices/userSlice";
 import { Picker } from "@react-native-picker/picker";
+import { colors } from "../../constants/palette";
 
 export default function AddRegion({ navigation }) {
   const [newRegion, setNewRegion] = useState(null);
@@ -59,7 +60,7 @@ export default function AddRegion({ navigation }) {
           })
         );
         console.log(res.data);
-        navigation.navigate("Profile");
+        navigation.pop();
       }
     } catch (err) {
       console.log(err);
@@ -134,7 +135,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   fabookButton: {
-    backgroundColor: "#000",
+    backgroundColor: colors.blue,
   },
   socialButtonContent: {
     flexDirection: "row",

@@ -12,6 +12,7 @@ import { OnboardingStack } from "./OnboardingStack";
 import { HomeStack } from "./HomeStack";
 import { ConnectionsStack } from "./ConnectionsStack";
 import { ProfileStack } from "./ProfileStack";
+import { OrderStack } from "./OrderStack";
 
 export function UserBottomTabs({ navigation }) {
   const BottomTabsNav = createBottomTabNavigator();
@@ -119,13 +120,14 @@ export function UserBottomTabs({ navigation }) {
           }}
         />
         <BottomTabsNav.Screen
-          name="Messages"
-          component={Messages}
+          name="Order"
+          component={OrderStack}
           options={{
-            title: "Messages",
+            title: "Orders",
+            headerShown: false,
             tabBarIcon: ({ focused, color, size }) => (
               <MaterialCommunityIcons
-                name={"android-messages"}
+                name={"hammer-screwdriver"}
                 size={28}
                 color={color}
               />

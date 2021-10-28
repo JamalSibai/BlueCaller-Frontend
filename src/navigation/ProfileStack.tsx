@@ -15,7 +15,13 @@ export function ProfileStack() {
   const navigationRef = useRef(null);
 
   return (
-    <RootStackNav.Navigator>
+    <RootStackNav.Navigator
+      screenOptions={{
+        cardStyle: {
+          backgroundColor: colors.white,
+        },
+      }}
+    >
       <RootStackNav.Screen
         name="Profile"
         component={Profile}

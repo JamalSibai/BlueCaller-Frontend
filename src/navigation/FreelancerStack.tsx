@@ -62,7 +62,7 @@ export function FreelancerBottomTabs({ navigation }) {
           name="Add Dates"
           component={AddDates}
           options={{
-            title: "Add Dates",
+            title: "Availability",
             tabBarIcon: ({ focused, color, size }) => (
               <MaterialCommunityIcons
                 name={"calendar"}
@@ -124,7 +124,7 @@ export function FreelancerBottomTabs({ navigation }) {
             },
           }}
         />
-        <BottomTabsNav.Screen
+        {/* <BottomTabsNav.Screen
           name="Messages"
           component={Messages}
           options={{
@@ -144,7 +144,7 @@ export function FreelancerBottomTabs({ navigation }) {
               fontWeight: "bold",
             },
           }}
-        />
+        /> */}
       </BottomTabsNav.Navigator>
     </NavigationContainer>
   );

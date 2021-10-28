@@ -12,24 +12,19 @@ import {
 import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function Message({ navigation, props }) {
+export default function Message({ navigation, image, name }) {
   return (
-    <SafeAreaView>
-      <View style={{ margin: 15, marginBottom: -10 }}>
-        <TouchableOpacity style={styles.card}>
-          <View style={styles.cardContent}>
-            <Image
-              style={[styles.image, styles.imageContent]}
-              source={{ uri: props.user.image }}
-            />
-            <Text style={styles.name}>{props.user.name}</Text>
-          </View>
-          <View style={[styles.cardContent, styles.tagsContent]}>
-            <Text>{props.message.message} </Text>
-          </View>
-        </TouchableOpacity>
+    <View style={{ flex: 1 }}>
+      <View style={styles.card}>
+        <View style={styles.cardContent}>
+          <Image
+            style={[styles.image, styles.imageContent]}
+            source={{ uri: image }}
+          />
+          <Text style={styles.name}>{name}</Text>
+        </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -82,7 +77,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     flexDirection: "column",
     borderTopWidth: 40,
-    marginBottom: 20,
+    // marginBottom: 20,
     borderBottomWidth: 5,
   },
   cardContent: {

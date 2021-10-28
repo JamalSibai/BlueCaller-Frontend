@@ -5,6 +5,8 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { store } from "../redux/store";
 import { updateDoneFreelancer } from "../redux/slices/userSlice";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { colors } from "../constants/palette";
 
 export default function FreelancerClients({ navigation, props }) {
   const [data, setData] = useState(props);
@@ -61,15 +63,41 @@ export default function FreelancerClients({ navigation, props }) {
           />
           <View>
             <Text style={styles.name}>{data.user.name} </Text>
-            <Text style={{ paddingLeft: 10 }}>email: {data.user.email} </Text>
-            <Text style={{ paddingLeft: 10 }}>Phone: {data.user.phone} </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                paddingLeft: 10,
+                paddingBottom: 5,
+              }}
+            >
+              <MaterialCommunityIcons
+                name={"email-outline"}
+                size={20}
+                color={colors.blue}
+              />
+              <Text style={{ paddingLeft: 10 }}>{data.user.email} </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                paddingLeft: 10,
+                paddingBottom: 5,
+              }}
+            >
+              <MaterialCommunityIcons
+                name={"phone-hangup-outline"}
+                size={20}
+                color={colors.blue}
+              />
+              <Text style={{ paddingLeft: 10 }}>+961 {data.user.phone} </Text>
+            </View>
           </View>
         </View>
         <View style={{ width: "100%", flexDirection: "row" }}>
-          <View style={{ flex: 0.5 }}>
+          <View style={{ flex: 0.5, marginHorizontal: 5 }}>
             <Button title="Location" color="#000" onPress={() => location()} />
           </View>
-          <View style={{ flex: 0.5 }}>
+          <View style={{ flex: 0.5, marginHorizontal: 5 }}>
             <Button title="Done" color="green" onPress={() => Done()} />
           </View>
         </View>
@@ -80,7 +108,10 @@ export default function FreelancerClients({ navigation, props }) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 40,
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    backgroundColor: "white",
   },
   box: {
     marginTop: 10,
@@ -107,11 +138,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#000",
     marginBottom: 10,
-    marginTop: 10,
+    marginTop: 0,
+    marginLeft: -10,
+    aspectRatio: 1,
   },
   name: {
     fontSize: 25,
-    marginTop: 10,
+    marginTop: -2,
     // marginBottom: 10,
     marginLeft: 10,
     fontWeight: "bold",

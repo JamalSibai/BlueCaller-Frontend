@@ -48,9 +48,9 @@ export default function Appointments({ navigation }) {
   }, [user.DoneFreelancer.Done]);
 
   return data ? (
-    <View>
+    <View style={{ backgroundColor: "#F5F5F5", flex: 1 }}>
       <ScrollView>
-        <View style={{ backgroundColor: "#fff", flex: 1 }}>
+        <View style={{ backgroundColor: "#F5F5F5", flex: 1 }}>
           {data.map((d) => (
             <FreelancerClients props={d} key={d.id} />
           ))}
@@ -58,7 +58,7 @@ export default function Appointments({ navigation }) {
       </ScrollView>
     </View>
   ) : (
-    <EmptyState loading={true} />
+    <EmptyState loading={true} icon={"coffee"} />
   );
 }
 

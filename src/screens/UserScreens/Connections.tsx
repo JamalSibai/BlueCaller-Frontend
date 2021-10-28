@@ -36,12 +36,14 @@ export default function Connections({ navigation }) {
     }
   };
 
-  const sendMessage = (id) => {
+  const sendMessage = (id, image, name) => {
     console.log("in Connections" + id);
     store.dispatch(
       updateMessage_id({
         message_id: {
           user_id: id,
+          image: image,
+          name: name,
         },
       })
     );
@@ -57,12 +59,12 @@ export default function Connections({ navigation }) {
     <ScrollView>
       <View style={{ backgroundColor: "#fff", flex: 1 }}>
         {data.map((d) => (
-          <ListingProfile props={d} sendMessage={sendMessage} />
+          <ListingProfile props={d} key={d.id} sendMessage={sendMessage} />
         ))}
       </View>
     </ScrollView>
   ) : (
-    <EmptyState loading={true} />
+    <EmptyState loading={true} icon={"coffee"} />
   );
 }
 

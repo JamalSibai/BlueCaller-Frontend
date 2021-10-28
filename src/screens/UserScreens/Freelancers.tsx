@@ -12,13 +12,13 @@ export default function Freelancers({ navigation }) {
   const [variable, setVariable] = useState(1);
 
   const [expoPushToken, setExpoPushToken] = useState(
-    "ExponentPushToken[RZX_6GPi6gT5s7wJYtP0hW]"
+    "ExponentPushToken[nr4VAEICkGsMvFWwobzNaV]"
   );
   async function sendPushNotification(expoPushToken) {
     const message = {
       to: expoPushToken,
       sound: "default",
-      title: "Original Title",
+      title: "Blue Caller",
       body: "Hey Freelancer!! You Have A new appointment",
       data: { someData: "goes here" },
     };
@@ -54,19 +54,25 @@ export default function Freelancers({ navigation }) {
       if (res.data.hasOwnProperty("status")) {
         setData(null);
       } else {
+        if (res.data.length == 0) {
+          alert("There is no available freelancers from this search!");
+          navigation.pop();
+        }
         setData(res.data);
         console.log("here");
-        console.log(data);
+        console.log(res.data[0][0].id);
       }
     } catch (err) {
       console.log(err);
+      alert("There is no available freelancers from this search!");
+      navigation.pop();
     }
   };
   const abc = async () => {
     await sendPushNotification(expoPushToken);
     alert("Appointment Reserved");
     setVariable(Math.floor(Math.random()));
-    navigation.navigate("Home");
+    navigation.pop();
   };
 
   useEffect(() => {
@@ -76,7 +82,7 @@ export default function Freelancers({ navigation }) {
 
   return data ? (
     <ScrollView>
-      <View style={{ backgroundColor: "#fff", flex: 1 }}>
+      <View style={{ backgroundColor: "#F5F5F5", flex: 1 }}>
         {data.map((d) => (
           <FreelancerCard
             props={d}
@@ -85,15 +91,14 @@ export default function Freelancers({ navigation }) {
             date={user.freelancerSearch.date}
             category={user.freelancerSearch.category}
             region={user.freelancerSearch.region}
-            key={Math.floor(Math.random())}
-            // id={d}
+            key={d[0].id}
             abc={abc}
           />
         ))}
       </View>
     </ScrollView>
   ) : (
-    <EmptyState loading={true} />
+    <EmptyState loading={true} icon={"coffee"} />
   );
 }
 

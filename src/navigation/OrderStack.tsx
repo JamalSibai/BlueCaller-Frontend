@@ -2,12 +2,12 @@ import React, { useRef } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import Connections from "../screens/UserScreens/Connections";
-import Chat from "../screens/UserScreens/Chat";
+import Orders from "../screens/UserScreens/Orders";
+import Details from "../screens/UserScreens/Details";
 
 import { colors } from "../constants/palette";
 
-export function ConnectionsStack() {
+export function OrderStack() {
   const RootStackNav = createStackNavigator();
   const navigationRef = useRef(null);
 
@@ -20,10 +20,10 @@ export function ConnectionsStack() {
       }}
     >
       <RootStackNav.Screen
-        name="Connections"
-        component={Connections}
+        name="Orders"
+        component={Orders}
         options={{
-          title: "Connections",
+          title: "Orders",
           headerStyle: {
             backgroundColor: "#000",
           },
@@ -34,10 +34,10 @@ export function ConnectionsStack() {
         }}
       />
       <RootStackNav.Screen
-        name="Chat"
-        component={Chat}
+        name="Details"
+        component={Details}
         options={{
-          title: "Send Message",
+          title: "Details",
           headerStyle: {
             backgroundColor: "#000",
           },

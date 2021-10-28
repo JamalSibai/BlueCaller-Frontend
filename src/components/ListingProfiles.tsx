@@ -12,8 +12,8 @@ import { Rating } from "react-native-ratings";
 export default function ListingProfile({ navigation, props, sendMessage }) {
   const [id, setId] = useState({ props });
   const onPress = (user_id) => {
-    console.log(id.props.id);
-    sendMessage(user_id.props.id);
+    // console.log(id.props.id);
+    sendMessage(user_id.props.id, user_id.props.image, user_id.props.name);
   };
   return (
     <View>

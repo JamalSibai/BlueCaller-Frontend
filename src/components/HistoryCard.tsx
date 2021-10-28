@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 
 export default function HistoryCard({ navigation, props }) {
   const user = useSelector((state) => state?.user);
+  const [data, setData] = useState(null);
   let rate;
   const [freelancer, setFreelancer] = useState({ props });
   const ratingCompleted = (rating: number) => {
@@ -54,7 +55,7 @@ export default function HistoryCard({ navigation, props }) {
     }
   };
 
-  return (
+  return data ? (
     <View style={styles.container}>
       <Image style={styles.userImage} source={{ uri: props.image }} />
       <View style={styles.cardFooter}>
@@ -71,99 +72,104 @@ export default function HistoryCard({ navigation, props }) {
         </View>
       </View>
     </View>
+  ) : (
+    <View style={{ backgroundColor: "#F5F5F5" }}>
+      <View style={styles.container}>
+        <View style={styles.box}>
+          <View style={styles.innerbox}>
+            <Image style={styles.profileImage} source={{ uri: props.image }} />
+            <View>
+              <Text style={styles.name}>{props.name}</Text>
+
+              <Text style={{ paddingLeft: 18 }}>(Rate)</Text>
+              <Rating
+                style={{ paddingLeft: 15, paddingTop: 5 }}
+                type="star"
+                imageSize={22}
+                ratingCount={5}
+                onFinishRating={ratingCompleted}
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     marginTop: 20,
-    borderColor: "#000",
-    borderWidth: 1,
-    marginBottom: 10,
-    marginLeft: 50,
-    marginRight: 50,
-  },
-  list: {
-    paddingHorizontal: 5,
-    backgroundColor: "#E6E6E6",
-  },
-  listContainer: {
-    alignItems: "center",
-  },
-  /******** card **************/
-  card: {
-    shadowColor: "#00000021",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.37,
-    shadowRadius: 7.49,
-    elevation: 12,
-
-    marginVertical: 5,
+    marginLeft: 20,
+    marginRight: 20,
+    // padding: 20,
     backgroundColor: "white",
-    flexBasis: "46%",
-    marginHorizontal: 5,
   },
-  cardFooter: {
-    paddingVertical: 17,
-    paddingHorizontal: 16,
-    borderTopLeftRadius: 1,
-    borderTopRightRadius: 1,
-    flexDirection: "row",
+  box: {
+    marginTop: 10,
     alignItems: "center",
-    justifyContent: "center",
+    shadowColor: "black",
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      height: 1,
+      width: -2,
+    },
+    elevation: 2,
+    paddingTop: 10,
   },
-  cardContent: {
-    paddingVertical: 12.5,
-    paddingHorizontal: 16,
-  },
-  cardHeader: {
+  innerbox: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    paddingTop: 12.5,
-    paddingBottom: 25,
-    paddingHorizontal: 16,
-    borderBottomLeftRadius: 1,
-    borderBottomRightRadius: 1,
   },
-  userImage: {
-    height: 120,
-    width: 120,
-    borderRadius: 10,
-    alignSelf: "center",
+  profileImage: {
+    width: 150,
+    height: 100,
+    paddingLeft: 30,
+    paddingRight: 30,
+    flex: 0.3,
+    borderRadius: 0,
+    borderWidth: 1,
     borderColor: "#000",
-    borderWidth: 3,
-    marginTop: 5,
+    marginBottom: 10,
+    // marginTop: 5,
+    marginLeft: -40,
   },
   name: {
-    fontSize: 18,
-    alignSelf: "center",
-    color: "#000",
+    fontSize: 25,
+    // marginTop: 10,
+    marginBottom: -8,
+    marginLeft: 10,
     fontWeight: "bold",
+    color: "#000",
+    flex: 0.7,
+    paddingLeft: 5,
   },
-  position: {
-    fontSize: 14,
-    alignSelf: "center",
-    color: "#696969",
+  rating: {
+    fontSize: 20,
+    marginTop: 2,
+    marginBottom: 2,
+    fontWeight: "bold",
+    color: "#000",
+    flex: 0.5,
   },
-  followButton: {
-    marginTop: 10,
-    height: 35,
-    width: 100,
+  buttonContainer: {
+    height: 45,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 30,
-    backgroundColor: "#00BFFF",
+    marginBottom: 20,
+    width: 280,
+    marginTop: -50,
+    // borderRadius: 30,
   },
-  followButtonText: {
-    color: "#FFFFFF",
-    fontSize: 20,
+  loginText: {
+    color: "white",
   },
-  icon: {
-    height: 20,
-    width: 20,
+  fabookButton: {
+    backgroundColor: "#000",
+  },
+  socialButtonContent: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

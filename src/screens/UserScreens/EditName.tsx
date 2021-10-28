@@ -10,6 +10,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { store } from "../../redux/store";
 import { updateEditingProfile } from "../../redux/slices/userSlice";
+import { colors } from "../../constants/palette";
 
 export default function EditName({ navigation }) {
   const user = useSelector((state) => state?.user);
@@ -44,7 +45,7 @@ export default function EditName({ navigation }) {
           })
         );
 
-        navigation.navigate("Profile");
+        navigation.pop();
       } else {
         // reload();
         console.log(res.data);
@@ -118,7 +119,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   fabookButton: {
-    backgroundColor: "#000",
+    backgroundColor: colors.blue,
   },
   socialButtonContent: {
     flexDirection: "row",
