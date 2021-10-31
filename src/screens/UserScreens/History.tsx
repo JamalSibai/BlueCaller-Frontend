@@ -40,7 +40,7 @@ export default function History({ navigation }) {
   }, []);
 
   return data ? (
-    <View style={{ backgroundColor: "white", flex: 1 }}>
+    <View style={{ backgroundColor: "#F5F5F5", flex: 1 }}>
       <ScrollView>
         <View style={{ backgroundColor: "#fff", flex: 1 }}>
           {data.map((d) => (

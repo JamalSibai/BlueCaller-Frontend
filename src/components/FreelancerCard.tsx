@@ -83,7 +83,7 @@ export default function FreelancerCard({
                 {props[1].hourly_price}$/Hour
               </Text>
               <Rating
-                style={{ paddingTop: 5, paddingLeft: 15 }}
+                style={{ paddingTop: 5, paddingLeft: 15, paddingBottom: 10 }}
                 type="star"
                 startingValue={props[2].rating}
                 readonly
@@ -142,8 +142,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 25,
-    marginTop: 10,
-    // marginBottom: 10,
+
     marginLeft: 10,
     fontWeight: "bold",
     color: "#000",

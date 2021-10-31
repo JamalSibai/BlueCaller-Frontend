@@ -15,7 +15,6 @@ import { useSelector } from "react-redux";
 
 export default function HistoryCard({ navigation, props }) {
   const user = useSelector((state) => state?.user);
-  const [data, setData] = useState(null);
   let rate;
   const [freelancer, setFreelancer] = useState({ props });
   const ratingCompleted = (rating: number) => {
@@ -55,24 +54,7 @@ export default function HistoryCard({ navigation, props }) {
     }
   };
 
-  return data ? (
-    <View style={styles.container}>
-      <Image style={styles.userImage} source={{ uri: props.image }} />
-      <View style={styles.cardFooter}>
-        <View style={{ alignItems: "center", justifyContent: "center" }}>
-          <Text style={styles.name}>{props.name}</Text>
-          <Text style={styles.position}>Rate Freelancer</Text>
-          <Rating
-            style={{ paddingLeft: 10, paddingTop: 5 }}
-            type="star"
-            imageSize={22}
-            ratingCount={5}
-            onFinishRating={ratingCompleted}
-          />
-        </View>
-      </View>
-    </View>
-  ) : (
+  return (
     <View style={{ backgroundColor: "#F5F5F5" }}>
       <View style={styles.container}>
         <View style={styles.box}>
@@ -119,6 +101,7 @@ const styles = StyleSheet.create({
   },
   innerbox: {
     flexDirection: "row",
+    paddingBottom: 10,
   },
   profileImage: {
     width: 150,

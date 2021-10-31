@@ -93,8 +93,9 @@ export default function freelancerRegister({ navigation, props }) {
         lightColor: "#FF231F7C",
       });
     }
-    // console.log(token);
+    console.log(token);
     setFirebase_token(token);
+    return token;
   }
 
   const register = async () => {
@@ -353,7 +354,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   btnText: {
-    color: "#000",
+    color: colors.blue,
     fontWeight: "bold",
   },
   textByRegister: {

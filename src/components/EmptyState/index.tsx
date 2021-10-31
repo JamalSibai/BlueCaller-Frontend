@@ -3,6 +3,7 @@ import { Text, ViewStyle, ActivityIndicator, View } from "react-native";
 import styles from "./styles";
 import Icon from "react-native-vector-icons/Feather";
 import FullWidthButton from "../FullWidthButton";
+import { colors } from "../../constants/palette";
 
 interface EmptyStateProps {
   title?: string;
@@ -49,7 +50,7 @@ const EmptyState: FC<EmptyStateProps> = (props) => {
       )}
       {props.loading && (
         <ActivityIndicator
-          color="#000"
+          color={colors.blue}
           size="large"
           style={{ marginBottom: 35 }}
         />

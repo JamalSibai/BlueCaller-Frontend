@@ -91,9 +91,9 @@ export default function Chat({ navigation }) {
       <View style={{ flex: 1, marginBottom: -410 }}>
         <Message image={user.message_id.image} name={user.message_id.name} />
       </View>
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, zIndex: -1 }}>
         <ScrollView>
-          <View style={{ backgroundColor: "#fff", flex: 1 }}>
+          <View style={{ backgroundColor: "#fff" }}>
             {data.map((d) => (
               // <Text>bla</Text>
               <ChatMessage props={d} key={d.message.id} />

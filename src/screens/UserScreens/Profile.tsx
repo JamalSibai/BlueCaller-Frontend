@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
     width: 250,
-    borderRadius: 30,
+    // borderRadius: 30,
   },
   loginText: {
     color: "white",

@@ -5,10 +5,8 @@ import { Provider } from "react-redux";
 import { StackSwitcher } from "./src/navigation/StackSwitcher";
 import { updateUserProfile } from "./src/redux/slices/userSlice";
 import { store } from "./src/redux/store";
-import Testing from "./src/screens/UserScreens/testing";
 
 const App = () => {
-  // return <Testing props={data} />;
   return (
     <Provider store={store}>
       <StackSwitcher />

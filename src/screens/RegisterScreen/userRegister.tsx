@@ -29,6 +29,7 @@ export default function userRegister({ navigation, props }) {
   };
 
   async function registerForPushNotificationsAsync() {
+    console.log("in");
     let token;
     if (Constants.isDevice) {
       const { status: existingStatus } =
@@ -55,11 +56,13 @@ export default function userRegister({ navigation, props }) {
         lightColor: "#FF231F7C",
       });
     }
-    // console.log(token);
+    console.log(token);
     setFirebase_token(token);
+    return token;
   }
 
   const register = async () => {
+    // await registerForPushNotificationsAsync();
     if (!name) {
       alert("Please enter your  name");
     } else if (!email) {
@@ -73,7 +76,7 @@ export default function userRegister({ navigation, props }) {
     } else if (!phone) {
       alert("Please enter your phone number");
     } else {
-      registerForPushNotificationsAsync();
+      await registerForPushNotificationsAsync();
       try {
         const res = await axios.post(
           `https://bluecaller.tk/api/auth/register`,
@@ -164,7 +167,7 @@ export default function userRegister({ navigation, props }) {
 
       <TouchableOpacity
         style={[styles.buttonContainer, styles.loginButton]}
-        onPress={register}
+        onPress={registerForPushNotificationsAsync}
       >
         <Text style={styles.loginText}>Register</Text>
       </TouchableOpacity>
