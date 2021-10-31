@@ -20,7 +20,6 @@ export default function EditName({ navigation }) {
     if (newName == "") {
       return alert("Enter a Name");
     }
-    console.log("in adddates");
     try {
       const res = await axios.post(
         `https://bluecaller.tk/api/auth/edit-name`,
@@ -47,7 +46,6 @@ export default function EditName({ navigation }) {
 
         navigation.pop();
       } else {
-        // reload();
         console.log(res.data);
       }
     } catch (err) {

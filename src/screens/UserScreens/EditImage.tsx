@@ -28,8 +28,6 @@ export default function EditImage({ navigation }) {
     if (image == null) {
       return alert("Add Image");
     }
-    // console.log("in adddates");
-    // return console.log(image);
     try {
       const res = await axios.post(
         `https://bluecaller.tk/api/auth/edit-imagebase64`,
@@ -56,7 +54,6 @@ export default function EditImage({ navigation }) {
 
         navigation.pop();
       } else {
-        // reload();
         console.log(res.data);
       }
     } catch (err) {
@@ -84,8 +81,6 @@ export default function EditImage({ navigation }) {
       quality: 1,
       base64: true,
     });
-
-    // console.log(result);
 
     if (!result.cancelled) {
       setImage(result.uri);

@@ -14,7 +14,6 @@ export default function Calendar({ navigation }) {
   const user = useSelector((state) => state?.user);
 
   const navigate = (freelancerDate) => {
-    console.log("in Connections" + freelancerDate);
     store.dispatch(
       updateAppointmentDate({
         appointmentDate: {

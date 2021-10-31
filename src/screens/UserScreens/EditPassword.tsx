@@ -45,7 +45,6 @@ export default function EditPassword({ navigation }) {
         );
         navigation.pop();
       } else {
-        // reload();
         console.log(res.data);
       }
     } catch (err) {

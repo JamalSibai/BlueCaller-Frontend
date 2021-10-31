@@ -38,7 +38,7 @@ export default function Maps({ navigation, props }) {
         },
       })
     );
-    console.log("in");
+
     navigation.pop();
   };
   return (
@@ -65,7 +65,6 @@ export default function Maps({ navigation, props }) {
               latitude: e.nativeEvent.coordinate.latitude,
               longitude: e.nativeEvent.coordinate.longitude,
             });
-            // onpress2();
             console.log(pin);
           }}
         >

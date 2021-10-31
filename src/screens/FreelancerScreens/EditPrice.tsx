@@ -52,7 +52,6 @@ export default function EditPrice({ navigation }) {
 
         navigation.pop();
       } else {
-        // reload();
         console.log(res.data);
       }
     } catch (err) {
@@ -106,7 +105,7 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     width: 300,
     padding: 10,
-    // borderWidth: 1,
+
     borderColor: "#666",
     alignItems: "center",
   },

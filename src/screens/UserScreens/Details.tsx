@@ -17,7 +17,6 @@ import DetailedOrder from "../../components/detailedOrder";
 
 export default function Details({ navigation, route }) {
   const data = route.params.items;
-  // console.log(data);
   const user = useSelector((state) => state?.user);
 
   return data ? (

@@ -25,7 +25,6 @@ export default function Chat({ navigation }) {
   const [data, setData] = useState(null);
 
   const getChat = async () => {
-    // return console.log(user.message_id.user_id);
     try {
       const res = await axios.post(
         `https://bluecaller.tk/api/auth/get-chat`,
@@ -43,8 +42,6 @@ export default function Chat({ navigation }) {
         console.log(res.data);
       } else {
         setData(res.data);
-        // console.log(res.data);
-        // console.log("Messages");
       }
     } catch (err) {
       console.log(err);
@@ -52,7 +49,6 @@ export default function Chat({ navigation }) {
   };
 
   useEffect(() => {
-    console.log("in");
     getChat();
   }, []);
 
@@ -75,11 +71,9 @@ export default function Chat({ navigation }) {
         }
       );
       if (res.data.hasOwnProperty("status")) {
-        // console.log(res.data);
         getChat();
       } else {
         // setData(null);
-        console.log("Done");
       }
     } catch (err) {
       console.log(err);
@@ -95,7 +89,6 @@ export default function Chat({ navigation }) {
         <ScrollView>
           <View style={{ backgroundColor: "#fff" }}>
             {data.map((d) => (
-              // <Text>bla</Text>
               <ChatMessage props={d} key={d.message.id} />
             ))}
           </View>

@@ -26,7 +26,6 @@ export default function Connections({ navigation }) {
       );
       if (res.data.hasOwnProperty("status")) {
         setData(res.data.connections);
-        console.log("here");
         console.log(res.data);
       } else {
         setData(null);
@@ -37,7 +36,6 @@ export default function Connections({ navigation }) {
   };
 
   const sendMessage = (id, image, name) => {
-    console.log("in Connections" + id);
     store.dispatch(
       updateMessage_id({
         message_id: {
@@ -51,7 +49,6 @@ export default function Connections({ navigation }) {
   };
 
   useEffect(() => {
-    console.log("in");
     userConnection();
   }, []);
 

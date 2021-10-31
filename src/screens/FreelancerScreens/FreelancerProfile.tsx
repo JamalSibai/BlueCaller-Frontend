@@ -62,7 +62,6 @@ export default function FreelancerProfile({ navigation }) {
         }
       );
       if (res.data.hasOwnProperty("status")) {
-        console.log("Done");
       } else {
         setData(res.data);
         setName(res.data[0][0].name);
@@ -81,7 +80,6 @@ export default function FreelancerProfile({ navigation }) {
     }
   };
   useEffect(() => {
-    console.log("in");
     userProfile();
   }, [user.editingProfile.edited]);
 

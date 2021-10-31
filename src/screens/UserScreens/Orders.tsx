@@ -31,12 +31,10 @@ export default function Orders({ navigation }) {
         }
       );
       if (res.data.hasOwnProperty("status")) {
-        // setData(res.data);
-        // console.log(res.data);
-        // console.log(data);
+        console.log(res.data);
+        console.log(data);
       } else {
         setData(res.data);
-        // console.log(res.data);
       }
     } catch (err) {
       console.log(err);
@@ -48,8 +46,6 @@ export default function Orders({ navigation }) {
   }, []);
 
   const openOrder = (items) => {
-    // console.log(items);
-
     navigation.navigate("Details", { items: items });
   };
 

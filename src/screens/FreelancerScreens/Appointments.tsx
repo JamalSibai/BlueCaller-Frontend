@@ -15,7 +15,6 @@ export default function Appointments({ navigation }) {
   const [value, setValue] = useState(1);
 
   const userAppointment = async () => {
-    console.log("in historyCard");
     try {
       const res = await axios.post(
         `https://bluecaller.tk/api/auth/view-appointments`,
@@ -31,7 +30,7 @@ export default function Appointments({ navigation }) {
       );
       if (res.data.hasOwnProperty("status")) {
         console.log(res.data);
-        // setData(null);
+
         alert("Successfuly Rated Freelancer!!");
       } else {
         setData(res.data);
@@ -43,7 +42,6 @@ export default function Appointments({ navigation }) {
   };
 
   useEffect(() => {
-    console.log("in");
     userAppointment();
   }, [user.DoneFreelancer.Done]);
 

@@ -46,7 +46,6 @@ export default function EditPhone({ navigation }) {
 
         navigation.pop();
       } else {
-        // reload();
         console.log(res.data);
       }
     } catch (err) {

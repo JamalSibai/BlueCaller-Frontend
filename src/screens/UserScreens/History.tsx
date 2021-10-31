@@ -11,7 +11,6 @@ export default function History({ navigation }) {
   const user = useSelector((state) => state?.user);
 
   const userHistory = async () => {
-    console.log("in userConnection");
     try {
       const res = await axios.get(
         `https://bluecaller.tk/api/auth/view-past-orders`,
@@ -26,7 +25,6 @@ export default function History({ navigation }) {
         setData(null);
       } else {
         setData(res.data);
-        // console.log("here");
         console.log(res.data);
       }
     } catch (err) {
@@ -35,7 +33,6 @@ export default function History({ navigation }) {
   };
 
   useEffect(() => {
-    console.log("in");
     userHistory();
   }, []);
 

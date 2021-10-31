@@ -42,7 +42,6 @@ export default function Profile({ navigation }) {
   };
 
   const userProfile = async () => {
-    // console.log(user.userProfile.token);
     try {
       const res = await axios.get(
         `https://bluecaller.tk/api/auth/user-profile`,
@@ -54,15 +53,12 @@ export default function Profile({ navigation }) {
         }
       );
       if (res.data.hasOwnProperty("status")) {
-        console.log("Done");
       } else {
         setData(res.data);
         setName(res.data.name);
         setEmail(res.data.email);
         setPhone(res.data.phone);
         setImage(res.data.image);
-
-        console.log(data);
       }
     } catch (err) {
       console.log(err);
@@ -70,7 +66,6 @@ export default function Profile({ navigation }) {
   };
 
   useEffect(() => {
-    console.log("in");
     userProfile();
   }, [user.editingProfile.edited]);
 

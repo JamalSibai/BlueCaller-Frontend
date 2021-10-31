@@ -35,7 +35,6 @@ export default function Freelancers({ navigation }) {
   }
 
   const pressSearch = async () => {
-    console.log("in presssearch");
     try {
       const res = await axios.post(
         `https://bluecaller.tk/api/auth/user-search`,
@@ -59,7 +58,6 @@ export default function Freelancers({ navigation }) {
           navigation.pop();
         }
         setData(res.data);
-        console.log("here");
         console.log(res.data[0][0].id);
       }
     } catch (err) {
@@ -76,7 +74,6 @@ export default function Freelancers({ navigation }) {
   };
 
   useEffect(() => {
-    console.log("in");
     pressSearch();
   }, [variable]);
 

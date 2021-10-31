@@ -29,7 +29,6 @@ export default function userRegister({ navigation, props }) {
   };
 
   async function registerForPushNotificationsAsync() {
-    console.log("in");
     let token;
     if (Constants.isDevice) {
       const { status: existingStatus } =

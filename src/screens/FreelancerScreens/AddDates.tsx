@@ -30,7 +30,6 @@ export default function AddDates({ navigation }) {
         }
       );
       if (res.data.hasOwnProperty("status")) {
-        console.log(res.data);
         alert(adddate + " added to Schedule");
         store.dispatch(
           updateChangeDate({
@@ -40,8 +39,7 @@ export default function AddDates({ navigation }) {
           })
         );
       } else {
-        // alert(adddate + " added to Schedule");
-        // console.log(res.data);
+        console.log(res.data);
       }
     } catch (err) {
       alert(adddate + " already in your schedule!");

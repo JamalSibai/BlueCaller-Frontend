@@ -12,7 +12,6 @@ export default function Messages({ navigation }) {
   const user = useSelector((state) => state?.user);
 
   const messagesRecieved = async () => {
-    console.log("in presssearch");
     try {
       const res = await axios.get(
         `https://bluecaller.tk/api/auth/get-messages`,
@@ -27,7 +26,6 @@ export default function Messages({ navigation }) {
         setData(null);
       } else {
         setData(res.data);
-        // console.log("here");
         console.log(data);
       }
     } catch (err) {
@@ -35,7 +33,6 @@ export default function Messages({ navigation }) {
     }
   };
   useEffect(() => {
-    console.log("in");
     messagesRecieved();
   }, []);
   return data ? (
